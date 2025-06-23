@@ -56,6 +56,26 @@ let AuthService = class AuthService {
             accessToken,
         };
     }
+    async login(dto) {
+        const user = await this.prisma.user.findUnique({
+            where: { email: dto.email },
+        });
+        if (!user) {
+            throw new common_1.UnauthorizedException('Invalid credentials');
+        }
+        const isPasswordValid = await bcrypt.compare(dto.password, user === null || user === void 0 ? void 0 : user.password);
+        if (!isPasswordValid) {
+            throw new common_1.UnauthorizedException('Invalid credentials');
+        }
+        const { password } = user, safeUser = __rest(user, ["password"]);
+        const accessToken = this.jwtService.sign({
+            sub: user.id,
+            email: user.email,
+        });
+        return {
+            user: safeUser,
+        };
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

@@ -1,5 +1,6 @@
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
@@ -8,11 +9,22 @@ export declare class AuthController {
             id: string;
             email: string;
             username: string;
-            createdAt: Date;
-            updatedAt: Date;
             bio: string | null;
             avatar: string | null;
+            createdAt: Date;
+            updatedAt: Date;
         };
         accessToken: string;
+    }>;
+    login(dto: LoginDto): Promise<{
+        user: {
+            id: string;
+            email: string;
+            username: string;
+            bio: string | null;
+            avatar: string | null;
+            createdAt: Date;
+            updatedAt: Date;
+        };
     }>;
 }
