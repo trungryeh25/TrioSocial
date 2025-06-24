@@ -18,7 +18,7 @@ const comment_service_1 = require("./comment.service");
 const create_comment_dto_1 = require("./dto/create-comment.dto");
 const update_comment_dto_1 = require("./dto/update-comment.dto");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
-const current_user_decorator_1 = require("../../../common/decorators/current-user.decorator");
+const current_user_decorator_1 = require("../../common/decorators/current-user.decorator");
 const user_entity_1 = require("../user/entities/user.entity");
 let CommentController = class CommentController {
     constructor(commentService) {
@@ -39,8 +39,8 @@ let CommentController = class CommentController {
 };
 exports.CommentController = CommentController;
 __decorate([
-    (0, common_1.Post)(':postId'),
-    __param(0, (0, common_1.Param)('postId')),
+    (0, common_1.Post)(":postId"),
+    __param(0, (0, common_1.Param)("postId")),
     __param(1, (0, current_user_decorator_1.CurrentUser)()),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -49,30 +49,30 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)('post/:postId'),
-    __param(0, (0, common_1.Param)('postId')),
+    (0, common_1.Get)("post/:postId"),
+    __param(0, (0, common_1.Param)("postId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "findAllByPost", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_comment_dto_1.UpdateCommentDto]),
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "remove", null);
 exports.CommentController = CommentController = __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Controller)('comments'),
+    (0, common_1.Controller)("comments"),
     __metadata("design:paramtypes", [comment_service_1.CommentService])
 ], CommentController);
 //# sourceMappingURL=comment.controller.js.map

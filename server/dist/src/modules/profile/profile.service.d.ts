@@ -7,16 +7,16 @@ export declare class ProfileService {
         id: string;
         email: string;
         username: string;
-        createdAt: Date;
         bio: string | null;
         avatar: string | null;
+        createdAt: Date;
     }>;
     updateProfile(userId: string, dto: UpdateProfileDto): Promise<{
         id: string;
         email: string;
         username: string;
-        updatedAt: Date;
         bio: string | null;
         avatar: string | null;
+        updatedAt: Date;
     }>;
 }

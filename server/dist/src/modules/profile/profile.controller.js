@@ -16,7 +16,7 @@ exports.ProfileController = void 0;
 const common_1 = require("@nestjs/common");
 const profile_service_1 = require("./profile.service");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
-const current_user_decorator_1 = require("../../../common/decorators/current-user.decorator");
+const current_user_decorator_1 = require("../../common/decorators/current-user.decorator");
 const user_entity_1 = require("../user/entities/user.entity");
 const update_profile_dto_1 = require("./dto/update-profile.dto");
 let ProfileController = class ProfileController {
@@ -50,7 +50,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProfileController.prototype, "updateProfile", null);
 exports.ProfileController = ProfileController = __decorate([
-    (0, common_1.Controller)('profile'),
+    (0, common_1.Controller)("profile"),
     __metadata("design:paramtypes", [profile_service_1.ProfileService])
 ], ProfileController);
 //# sourceMappingURL=profile.controller.js.map

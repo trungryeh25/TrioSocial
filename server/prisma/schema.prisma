@@ -13,6 +13,7 @@ model User {
   username              String         @unique
   password              String
   bio                   String?
+  role                  Role           @default(USER)
   avatar                String?
   posts                 Post[]         @relation("UserPosts")
   comments              Comment[]
@@ -21,6 +22,14 @@ model User {
   receivedNotifications Notification[] @relation("RecipientUser")
   createdAt             DateTime       @default(now())
   updatedAt             DateTime       @updatedAt
+
+  sentFriendRequests    Friend[] @relation("UserFriends")
+  receivedFriendRequests Friend[] @relation("FriendOf")
+}
+
+enum Role{
+  ADMIN
+  USER
 }
 
 model Post {
@@ -84,4 +93,24 @@ model Notification {
   recipientId String
   isRead      Boolean  @default(false)
   createdAt   DateTime @default(now())
+}
+
+model Friend {
+  id         String   @id @default(uuid())
+  userId     String
+  friendId   String
+  status     FriendStatus @default(pending)
+  createdAt  DateTime @default(now())
+
+  user       User     @relation("UserFriends", fields: [userId], references: [id])
+  friend     User     @relation("FriendOf", fields: [friendId], references: [id])
+
+  @@unique([userId, friendId]) // tránh gửi nhiều lời mời trùng
+}
+
+enum FriendStatus {
+  pending
+  accepted
+  rejected
+  blocked
 }

@@ -13,16 +13,27 @@ export declare class HashtagService {
                 id: string;
                 createdAt: Date;
                 content: string;
-                authorId: string;
                 postId: string;
+                authorId: string;
             }[];
             votes: {
                 id: string;
                 createdAt: Date;
-                postId: string;
                 userId: string;
+                postId: string;
                 value: number;
             }[];
+            author: {
+                id: string;
+                email: string;
+                username: string;
+                password: string;
+                bio: string | null;
+                role: import(".prisma/client").$Enums.Role;
+                avatar: string | null;
+                createdAt: Date;
+                updatedAt: Date;
+            };
             hashtags: {
                 hashtag: {
                     id: string;
@@ -30,26 +41,16 @@ export declare class HashtagService {
                     name: string;
                 };
             }[];
-            author: {
-                id: string;
-                email: string;
-                username: string;
-                password: string;
-                createdAt: Date;
-                updatedAt: Date;
-                bio: string | null;
-                avatar: string | null;
-            };
         } & {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            title: string;
             content: string;
             authorId: string;
+            title: string;
         };
     } & {
-        hashtagId: string;
         postId: string;
+        hashtagId: string;
     })[]>;
 }

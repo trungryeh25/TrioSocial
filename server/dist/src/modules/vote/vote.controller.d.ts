@@ -9,8 +9,8 @@ export declare class VoteController {
     }): Promise<{
         id: string;
         createdAt: Date;
-        postId: string;
         userId: string;
+        postId: string;
         value: number;
     }>;
     removeVote(body: {
@@ -19,8 +19,8 @@ export declare class VoteController {
     }): Promise<{
         id: string;
         createdAt: Date;
-        postId: string;
         userId: string;
+        postId: string;
         value: number;
     }>;
 }

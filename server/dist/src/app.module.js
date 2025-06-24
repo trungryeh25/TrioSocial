@@ -17,6 +17,7 @@ const comment_module_1 = require("./modules/comment/comment.module");
 const vote_module_1 = require("./modules/vote/vote.module");
 const hashtag_module_1 = require("./modules/hashtag/hashtag.module");
 const notification_module_1 = require("./modules/notification/notification.module");
+const admin_module_1 = require("./modules/admin/admin.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -34,6 +35,7 @@ exports.AppModule = AppModule = __decorate([
             vote_module_1.VoteModule,
             hashtag_module_1.HashtagModule,
             notification_module_1.NotificationModule,
+            admin_module_1.AdminModule,
         ],
     })
 ], AppModule);

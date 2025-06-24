@@ -1,5 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '@prisma/prisma.service';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { PrismaService } from "@prisma/prisma.service";
 
 @Injectable()
 export class VoteService {
@@ -40,7 +40,7 @@ export class VoteService {
     });
 
     if (!vote) {
-      throw new NotFoundException('Vote not found');
+      throw new NotFoundException("Vote not found");
     }
 
     return this.prisma.vote.delete({

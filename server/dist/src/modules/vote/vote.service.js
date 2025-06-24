@@ -47,7 +47,7 @@ let VoteService = class VoteService {
             },
         });
         if (!vote) {
-            throw new common_1.NotFoundException('Vote not found');
+            throw new common_1.NotFoundException("Vote not found");
         }
         return this.prisma.vote.delete({
             where: {

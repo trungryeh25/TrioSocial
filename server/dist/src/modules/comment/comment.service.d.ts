@@ -8,8 +8,8 @@ export declare class CommentService {
         id: string;
         createdAt: Date;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
     }>;
     findAllByPost(postId: string): Promise<({
         author: {
@@ -17,56 +17,58 @@ export declare class CommentService {
             email: string;
             username: string;
             password: string;
+            bio: string | null;
+            role: import(".prisma/client").$Enums.Role;
+            avatar: string | null;
             createdAt: Date;
             updatedAt: Date;
-            bio: string | null;
-            avatar: string | null;
         };
     } & {
         id: string;
         createdAt: Date;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
     })[]>;
     findOne(id: string): Promise<{
         post: {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            title: string;
             content: string;
             authorId: string;
+            title: string;
         };
         author: {
             id: string;
             email: string;
             username: string;
             password: string;
+            bio: string | null;
+            role: import(".prisma/client").$Enums.Role;
+            avatar: string | null;
             createdAt: Date;
             updatedAt: Date;
-            bio: string | null;
-            avatar: string | null;
         };
     } & {
         id: string;
         createdAt: Date;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
     }>;
     update(id: string, dto: UpdateCommentDto): Promise<{
         id: string;
         createdAt: Date;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
     }>;
     remove(id: string): Promise<{
         id: string;
         createdAt: Date;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
     }>;
 }

@@ -13,6 +13,7 @@ exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_module_1 = require("../../prisma/prisma.module");
 const user_entity_1 = require("./entities/user.entity");
+const bcrypt = require("bcrypt");
 let UserService = class UserService {
     constructor(prisma) {
         this.prisma = prisma;
@@ -33,7 +34,16 @@ let UserService = class UserService {
         const user = await this.prisma.user.findUnique({ where: { email } });
         return user ? new user_entity_1.UserEntity(user) : null;
     }
+    async findByIdOrThrow(id) {
+        const user = await this.findById(id);
+        if (!user)
+            throw new common_1.NotFoundException("User not found");
+        return user;
+    }
     async update(id, data) {
+        if (data.password) {
+            data.password = await bcrypt.hash(data.password, 10);
+        }
         const user = await this.prisma.user.update({
             where: { id },
             data,
@@ -41,7 +51,8 @@ let UserService = class UserService {
         return new user_entity_1.UserEntity(user);
     }
     async remove(id) {
-        await this.prisma.user.delete({ where: { id } });
+        const deleted = await this.prisma.user.delete({ where: { id } });
+        return new user_entity_1.UserEntity(deleted);
     }
 };
 exports.UserService = UserService;

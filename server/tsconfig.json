@@ -19,7 +19,10 @@
       "@comment/*": ["modules/comment/*"],
       "@vote/*": ["modules/vote/*"],
       "@hashtag/*": ["modules/hashtag/*"],
-      "@notification/*": ["modules/notification/*"]
+      "@notification/*": ["modules/notification/*"],
+      "@guards/*": ["guards/*"], 
+      "@decorators/*": ["decorators/*"],
+      "@prismaService": ["prisma/prisma.service"]
     },
     "incremental": true,
     "strict": true,

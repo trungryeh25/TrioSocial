@@ -26,10 +26,13 @@ const prisma_service_1 = require("../../prisma/prisma.service");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
 const constants_1 = require("../../../config/constants");
+const config_1 = require("@nestjs/config");
+const common_2 = require("@nestjs/common");
 let AuthService = class AuthService {
-    constructor(prisma, jwtService) {
+    constructor(prisma, jwtService, configService) {
         this.prisma = prisma;
         this.jwtService = jwtService;
+        this.configService = configService;
     }
     async register(dto) {
         const existingUser = await this.prisma.user.findUnique({
@@ -38,12 +41,20 @@ let AuthService = class AuthService {
         if (existingUser) {
             throw new common_1.BadRequestException('Email already exists');
         }
+        if (dto.role === "ADMIN") {
+            const expectedKey = this.configService.get('SECRET_ADMIN_KEY');
+            if (dto.adminKey !== expectedKey) {
+                throw new common_2.ForbiddenException("Not allowed to register as ADMIN");
+            }
+        }
         const hashedPassword = await bcrypt.hash(dto.password, constants_1.BCRYPT_SALT_ROUNDS);
+        const role = dto.adminKey === process.env.ADMIN_KEY ? 'ADMIN' : 'USER';
         const user = await this.prisma.user.create({
             data: {
                 email: dto.email,
                 username: dto.username,
                 password: hashedPassword,
+                role,
             },
         });
         const { password } = user, safeUser = __rest(user, ["password"]);
@@ -81,6 +92,7 @@ exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        config_1.ConfigService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

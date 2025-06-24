@@ -1,6 +1,6 @@
 import { ProfileService } from "./profile.service";
-import { UserEntity } from '@modules/user/entities/user.entity';
-import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UserEntity } from "@modules/user/entities/user.entity";
+import { UpdateProfileDto } from "./dto/update-profile.dto";
 export declare class ProfileController {
     private readonly profileService;
     constructor(profileService: ProfileService);
@@ -8,16 +8,16 @@ export declare class ProfileController {
         id: string;
         email: string;
         username: string;
-        createdAt: Date;
         bio: string | null;
         avatar: string | null;
+        createdAt: Date;
     }>;
     updateProfile(user: UserEntity, dto: UpdateProfileDto): Promise<{
         id: string;
         email: string;
         username: string;
-        updatedAt: Date;
         bio: string | null;
         avatar: string | null;
+        updatedAt: Date;
     }>;
 }

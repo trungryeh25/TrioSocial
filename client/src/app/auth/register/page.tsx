@@ -10,6 +10,8 @@ type RegisterForm = {
   email: string;
   password: string;
   confirmPassword: string;
+  role: "USER" | "ADMIN";
+  adminKey?: string;
 };
 
 export default function RegisterPage() {
@@ -23,6 +25,8 @@ export default function RegisterPage() {
   const [serverError, setServerError] = useState("");
   const router = useRouter();
 
+  const role = watch("role", "USER");
+
   const onSubmit = async (data: RegisterForm) => {
     if (data.password !== data.confirmPassword) {
       setServerError("Passwords are not matching");
@@ -30,10 +34,11 @@ export default function RegisterPage() {
     }
 
     try {
-      await api.post("/auth/register", {
+      await api.post("auth/register", {
         username: data.username,
         email: data.email,
         password: data.password,
+        adminKey: data.role === "ADMIN" ? data.adminKey : undefined,
       });
       router.push("auth/login");
     } catch (err: any) {
@@ -104,6 +109,27 @@ export default function RegisterPage() {
           <p className="text-red-500 text-sm">
             {errors.confirmPassword.message}
           </p>
+        )}
+
+        <select {...register("role")} className="select select-bordered">
+          <option value="USER">User</option>
+          {process.env.NODE_ENV === "development" && (
+            <option value="ADMIN">Admin (internal only)</option>
+          )}
+        </select>
+
+        {role === "ADMIN" && (
+          <>
+            <input
+              type="password"
+              placeholder="Admin secret key"
+              {...register("adminKey", { required: "Admin key is required" })}
+              className="input input-bordered"
+            />
+            {errors.adminKey && (
+              <p className="text-red-500 text-sm">{errors.adminKey.message}</p>
+            )}
+          </>
         )}
 
         <button type="submit" className="btn btn-primary w-full">

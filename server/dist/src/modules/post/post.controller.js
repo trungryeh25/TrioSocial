@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const post_service_1 = require("./post.service");
 const create_post_dto_1 = require("./dto/create-post.dto");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
-const current_user_decorator_1 = require("../../../common/decorators/current-user.decorator");
+const current_user_decorator_1 = require("../../common/decorators/current-user.decorator");
 const user_entity_1 = require("../user/entities/user.entity");
 let PostController = class PostController {
     constructor(postService) {
@@ -45,8 +45,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "createPost", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
@@ -58,7 +58,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "getAllPosts", null);
 exports.PostController = PostController = __decorate([
-    (0, common_1.Controller)('posts'),
+    (0, common_1.Controller)("posts"),
     __metadata("design:paramtypes", [post_service_1.PostService])
 ], PostController);
 //# sourceMappingURL=post.controller.js.map

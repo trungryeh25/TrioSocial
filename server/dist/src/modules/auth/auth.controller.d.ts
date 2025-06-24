@@ -10,6 +10,7 @@ export declare class AuthController {
             email: string;
             username: string;
             bio: string | null;
+            role: import(".prisma/client").$Enums.Role;
             avatar: string | null;
             createdAt: Date;
             updatedAt: Date;
@@ -22,6 +23,7 @@ export declare class AuthController {
             email: string;
             username: string;
             bio: string | null;
+            role: import(".prisma/client").$Enums.Role;
             avatar: string | null;
             createdAt: Date;
             updatedAt: Date;

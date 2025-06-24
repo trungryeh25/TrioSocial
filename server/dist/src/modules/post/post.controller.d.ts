@@ -1,6 +1,6 @@
-import { PostService } from './post.service';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UserEntity } from '@modules/user/entities/user.entity';
+import { PostService } from "./post.service";
+import { CreatePostDto } from "./dto/create-post.dto";
+import { UserEntity } from "@modules/user/entities/user.entity";
 export declare class PostController {
     private readonly postService;
     constructor(postService: PostService);
@@ -16,25 +16,36 @@ export declare class PostController {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        title: string;
         content: string;
         authorId: string;
+        title: string;
     }>;
     getPostById(id: string): Promise<{
         comments: {
             id: string;
             createdAt: Date;
             content: string;
-            authorId: string;
             postId: string;
+            authorId: string;
         }[];
         votes: {
             id: string;
             createdAt: Date;
-            postId: string;
             userId: string;
+            postId: string;
             value: number;
         }[];
+        author: {
+            id: string;
+            email: string;
+            username: string;
+            password: string;
+            bio: string | null;
+            role: import(".prisma/client").$Enums.Role;
+            avatar: string | null;
+            createdAt: Date;
+            updatedAt: Date;
+        };
         hashtags: ({
             hashtag: {
                 id: string;
@@ -42,42 +53,43 @@ export declare class PostController {
                 name: string;
             };
         } & {
-            hashtagId: string;
             postId: string;
+            hashtagId: string;
         })[];
-        author: {
-            id: string;
-            email: string;
-            username: string;
-            password: string;
-            createdAt: Date;
-            updatedAt: Date;
-            bio: string | null;
-            avatar: string | null;
-        };
     } & {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        title: string;
         content: string;
         authorId: string;
+        title: string;
     }>;
     getAllPosts(): Promise<({
         comments: {
             id: string;
             createdAt: Date;
             content: string;
-            authorId: string;
             postId: string;
+            authorId: string;
         }[];
         votes: {
             id: string;
             createdAt: Date;
-            postId: string;
             userId: string;
+            postId: string;
             value: number;
         }[];
+        author: {
+            id: string;
+            email: string;
+            username: string;
+            password: string;
+            bio: string | null;
+            role: import(".prisma/client").$Enums.Role;
+            avatar: string | null;
+            createdAt: Date;
+            updatedAt: Date;
+        };
         hashtags: {
             hashtag: {
                 id: string;
@@ -85,22 +97,12 @@ export declare class PostController {
                 name: string;
             };
         }[];
-        author: {
-            id: string;
-            email: string;
-            username: string;
-            password: string;
-            createdAt: Date;
-            updatedAt: Date;
-            bio: string | null;
-            avatar: string | null;
-        };
     } & {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        title: string;
         content: string;
         authorId: string;
+        title: string;
     })[]>;
 }

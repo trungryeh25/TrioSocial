@@ -8,6 +8,7 @@ import { CommentModule } from '@comment/comment.module';
 import { VoteModule } from '@vote/vote.module';
 import { HashtagModule } from '@hashtag/hashtag.module';
 import { NotificationModule } from '@notification/notification.module';
+import { AdminModule } from '@modules/admin/admin.module';
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import { NotificationModule } from '@notification/notification.module';
         VoteModule,
         HashtagModule,
         NotificationModule,
+        AdminModule,
     ],
 })
 
