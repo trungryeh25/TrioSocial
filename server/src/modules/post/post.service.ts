@@ -7,6 +7,10 @@ import { UpdatePostDto } from './dto/update-post.dto';
 export class PostService {
   constructor(private readonly prisma: PrismaService) {}
 
+  private normalizeHashtagName(name: string) {
+    return name.trim().toLowerCase();
+  }
+
   async create(authorId: string, dto: CreatePostDto) {
     return this.prisma.post.create({
       data: {
@@ -16,12 +20,11 @@ export class PostService {
         hashtags: {
           create: dto.hashtags?.map((name) => ({
             hashtag: {
-                connectOrCreate: {
-                    where: { name },
-                    create: { name },
-                }
-            }
-            
+              connectOrCreate: {
+                where: { name: this.normalizeHashtagName(name) },
+                create: { name: this.normalizeHashtagName(name) },
+              },
+            },
           })) || [],
         },
       },
@@ -43,27 +46,12 @@ export class PostService {
     });
   }
 
-  async findOne(id: string) {
-    const post = await this.prisma.post.findUnique({
-      where: { id },
-      include: {
-        author: true,
-        hashtags: { select: { hashtag: true } },
-        comments: true,
-        votes: true,
-      },
-    });
-
-    if (!post) throw new NotFoundException('Post not found');
-    return post;
-  }
-
   async findById(postId: string) {
     const post = await this.prisma.post.findUnique({
       where: { id: postId },
       include: {
         author: true,
-        hashtags: { include: { hashtag: true } },
+        hashtags: { select: { hashtag: true } },
         comments: true,
         votes: true,
       },
@@ -77,34 +65,32 @@ export class PostService {
   }
 
   async update(id: string, dto: UpdatePostDto) {
-    await this.findOne(id);
+    await this.findById(id);
 
-    const updatedPost = await this.prisma.post.update({
-        where: { id },
-        data: {
+    return this.prisma.post.update({
+      where: { id },
+      data: {
         title: dto.title,
         content: dto.content,
         updatedAt: new Date(),
         hashtags: dto.hashtags
-            ? {
-                deleteMany: {}, // Remove all of the current hashtags
-                create: dto.hashtags.map((name) => ({
+          ? {
+              deleteMany: {}, // reset all of hashtags before
+              create: dto.hashtags.map((name) => ({
                 hashtag: {
-                    connectOrCreate: {
-                    where: { name: name.trim().toLowerCase() },
-                    create: { name: name.trim().toLowerCase() },
-                    },
+                  connectOrCreate: {
+                    where: { name: this.normalizeHashtagName(name) },
+                    create: { name: this.normalizeHashtagName(name) },
+                  },
                 },
-                })),
+              })),
             }
-            : undefined,
-        },
-        include: {
+          : undefined,
+      },
+      include: {
         hashtags: { select: { hashtag: true } },
-        },
+      },
     });
-
-    return updatedPost;
   }
 
   async remove(id: string) {

@@ -24,7 +24,7 @@ export class VoteService {
     });
 
     if (existingVote) {
-      // if it existed, could update
+      // if it exists, will update
       return this.prisma.vote.update({
         where: {
           postId_userId: {
