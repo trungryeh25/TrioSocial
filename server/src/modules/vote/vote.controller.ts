@@ -1,23 +1,26 @@
-import { Controller, Post, Delete, Body } from '@nestjs/common';
-import { VoteService } from './vote.service';
+import { Controller, Post, Body, UseGuards, Delete, Query } from "@nestjs/common";
+import { VoteService } from "./vote.service";
+import { CreateVoteDto } from "./dto/create-vote.dto";
+import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
+import { CurrentUser } from "@common/decorators/current-user.decorator";
+import { AuthPayload } from "@common/interfaces/auth-payload.interface";
 
-@Controller('votes')
+@Controller("vote")
 export class VoteController {
   constructor(private readonly voteService: VoteService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  vote(
-    @Body() body: { postId: string; userId: string; value: number }
-  ) {
-    const { postId, userId, value } = body;
-    return this.voteService.vote(postId, userId, value);
+  async vote(@Body() dto: CreateVoteDto, @CurrentUser() user: AuthPayload) {
+    return this.voteService.vote(user.sub, dto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete()
-  removeVote(
-    @Body() body: { postId: string; userId: string }
+  async removeVote(
+    @Query("postId") postId: string,
+    @CurrentUser() user: AuthPayload
   ) {
-    const { postId, userId } = body;
-    return this.voteService.removeVote(postId, userId);
+    return this.voteService.removeVote(user.sub, postId);
   }
 }
