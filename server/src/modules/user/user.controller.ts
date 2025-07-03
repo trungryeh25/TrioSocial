@@ -4,15 +4,17 @@ import {
   Param,
   Patch,
   Body,
-  NotFoundException,
   Delete,
   UseGuards,
+  ForbiddenException,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { Roles } from "@common/decorators/roles.decorator";
 import { RolesGuard } from "@common/guards/roles.guard";
 import { FriendService } from "@modules/friend/friend.service";
+import { CurrentUser } from "@common/decorators/current-user.decorator";
+import { UserEntity } from "@common/entities/user.entity";
 
 @Controller("users")
 @UseGuards(RolesGuard)
@@ -39,12 +41,25 @@ export class UserController {
   }
 
   @Patch(":id")
-  async updateUser(@Param("id") id: string, @Body() dto: UpdateUserDto) {
+  async updateUser(
+    @Param("id") id: string,
+    @Body() dto: UpdateUserDto,
+    @CurrentUser() currentUser: UserEntity
+  ) {
+    if (currentUser.id !== id && currentUser.role !== "ADMIN") {
+      throw new ForbiddenException("You can only update your own account");
+    }
     return this.userService.update(id, dto);
   }
 
   @Delete(":id")
-  async deleteUser(@Param("id") id: string) {
+  async deleteUser(
+    @Param("id") id: string,
+    @CurrentUser() currentUser: UserEntity
+  ) {
+    if (currentUser.id !== id && currentUser.role !== "ADMIN") {
+      throw new ForbiddenException("You can only delete your own account");
+    }
     return this.userService.remove(id);
   }
 }
