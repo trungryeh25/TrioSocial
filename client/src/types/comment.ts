@@ -6,4 +6,6 @@ export type Comment = {
     author: User;
     postId: string;
     createdAt: string;
+    replies?: Comment[];
+    votes?: number;
 };
