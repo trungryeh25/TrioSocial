@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty } from "class-validator";
 
 export class CreateNotificationDto {
   @IsString()
@@ -15,6 +15,9 @@ export class CreateNotificationDto {
   postId?: string;
 
   @IsNotEmpty()
+  @IsString()
+  actionId?: string;
+
   @IsString()
   userId!: string;
 }

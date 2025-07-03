@@ -6,19 +6,43 @@ import {
 import { PrismaService } from "@prisma/prisma.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { UpdateCommentDto } from "./dto/update-comment.dto";
+import { NotificationService } from "@modules/notification/notification.service";
 
 @Injectable()
 export class CommentService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly notificationService: NotificationService
+  ) {}
 
   async create(userId: string, dto: CreateCommentDto) {
-    return this.prisma.comment.create({
+    const post = await this.prisma.post.findUnique({
+      where: { id: dto.postId! },
+      include: { author: true },
+    });
+
+    if (!post) throw new NotFoundException("Post not found");
+
+    const comment = await this.prisma.comment.create({
       data: {
         content: dto.content!,
         postId: dto.postId!,
         authorId: userId,
       },
     });
+
+    // Nếu author của post khác người comment thì gửi notification
+    if (post.author.id !== userId) {
+      await this.notificationService.create({
+        type: "comment",
+        message: `Your post "${post.title}" has a new comment!`,
+        recipientId: post.author.id,
+        userId,
+        actionId: comment.id,
+      });
+    }
+
+    return comment;
   }
 
   async findAll() {

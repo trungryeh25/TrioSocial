@@ -1,13 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '@prisma/prisma.service';
-import { NotificationGateway } from './gateway/notification.gateway';
-import { CreateNotificationDto } from './dto/create-notification.dto';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { PrismaService } from "@prisma/prisma.service";
+import { NotificationGateway } from "./gateway/notification.gateway";
+import { CreateNotificationDto } from "./dto/create-notification.dto";
 
 @Injectable()
 export class NotificationService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly gateway: NotificationGateway, // send socket
+    private readonly gateway: NotificationGateway
   ) {}
 
   async create(dto: CreateNotificationDto) {
@@ -15,12 +15,8 @@ export class NotificationService {
       data: {
         type: dto.type,
         message: dto.message,
-        user: {
-          connect: { id: dto.userId },
-        },
-        recipient: {
-          connect: { id: dto.recipientId },
-        },
+        user: { connect: { id: dto.actionId } },
+        recipient: { connect: { id: dto.recipientId } },
       },
     });
 
@@ -28,27 +24,23 @@ export class NotificationService {
     return notification;
   }
 
-  async findAllByUser(userId: string) {
+  async findAllByUser(actionId: string) {
     return this.prisma.notification.findMany({
-      where: { recipientId: userId },
-      orderBy: { createdAt: 'desc' },
+      where: { recipientId: actionId },
+      orderBy: { createdAt: "desc" },
     });
   }
 
-
   async markAsRead(id: string) {
-    const noti = await this.prisma.notification.update({
+    return this.prisma.notification.update({
       where: { id },
       data: { isRead: true },
     });
-
-    return noti;
   }
 
   async remove(id: string) {
     const noti = await this.prisma.notification.findUnique({ where: { id } });
-    if (!noti) throw new NotFoundException('Notification not found');
-
+    if (!noti) throw new NotFoundException("Notification not found");
     return this.prisma.notification.delete({ where: { id } });
   }
 }
