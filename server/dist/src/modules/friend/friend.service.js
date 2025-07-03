@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FriendService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../prisma/prisma.service");
-const friend_status_enum_1 = require("./interfaces/friend-status.enum");
+const client_1 = require("@prisma/client");
 let FriendService = class FriendService {
     constructor(prisma) {
         this.prisma = prisma;
@@ -24,14 +24,8 @@ let FriendService = class FriendService {
         const existing = await this.prisma.friend.findFirst({
             where: {
                 OR: [
-                    {
-                        userId,
-                        friendId: dto.friendId,
-                    },
-                    {
-                        userId: dto.friendId,
-                        friendId: userId,
-                    },
+                    { userId, friendId: dto.friendId },
+                    { userId: dto.friendId, friendId: userId },
                 ],
             },
         });
@@ -42,7 +36,7 @@ let FriendService = class FriendService {
             data: {
                 userId,
                 friendId: dto.friendId,
-                status: friend_status_enum_1.FriendStatus.PENDING,
+                status: client_1.FriendStatus.pending,
             },
         });
     }
@@ -59,7 +53,7 @@ let FriendService = class FriendService {
             throw new common_1.NotFoundException("Friend request not found");
         return this.prisma.friend.update({
             where: { userId_friendId: { userId: friendId, friendId: userId } },
-            data: { status: friend_status_enum_1.FriendStatus.ACCEPTED },
+            data: { status: client_1.FriendStatus.accepted },
         });
     }
     async removeFriend(userId, friendId) {
@@ -76,24 +70,39 @@ let FriendService = class FriendService {
         const sent = await this.prisma.friend.findMany({
             where: {
                 userId,
-                status: friend_status_enum_1.FriendStatus.ACCEPTED,
+                status: client_1.FriendStatus.accepted,
             },
             include: { friend: true },
         });
         const received = await this.prisma.friend.findMany({
             where: {
                 friendId: userId,
-                status: friend_status_enum_1.FriendStatus.ACCEPTED,
+                status: client_1.FriendStatus.accepted,
             },
             include: { user: true },
         });
         return [...sent.map((f) => f.friend), ...received.map((f) => f.user)];
     }
+    async getFriendsOfUser(userId) {
+        const relations = await this.prisma.friend.findMany({
+            where: {
+                OR: [
+                    { userId, status: client_1.FriendStatus.accepted },
+                    { friendId: userId, status: client_1.FriendStatus.accepted },
+                ],
+            },
+            include: {
+                user: true,
+                friend: true,
+            },
+        });
+        return relations.map((rel) => rel.userId === userId ? rel.friend : rel.user);
+    }
     async getPendingRequests(userId) {
         return this.prisma.friend.findMany({
             where: {
                 friendId: userId,
-                status: friend_status_enum_1.FriendStatus.PENDING,
+                status: client_1.FriendStatus.pending,
             },
             include: { user: true },
         });
@@ -107,7 +116,7 @@ let FriendService = class FriendService {
                 },
             },
         });
-        if (!request || request.status !== friend_status_enum_1.FriendStatus.PENDING) {
+        if (!request || request.status !== client_1.FriendStatus.pending) {
             throw new common_1.NotFoundException("No pending friend request found");
         }
         return this.prisma.friend.delete({

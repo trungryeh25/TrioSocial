@@ -6,6 +6,7 @@ import { PrismaModule } from "prisma/prisma.module";
 @Module({
   imports: [PrismaModule],
   providers: [FriendService],
+  exports: [FriendService],
   controllers: [FriendController],
 })
 export class FriendModule {}

@@ -5,12 +5,12 @@ export declare class ProfileController {
     private readonly profileService;
     constructor(profileService: ProfileService);
     getProfile(user: UserEntity): Promise<{
+        createdAt: Date;
         id: string;
         email: string;
         username: string;
         bio: string | null;
         avatar: string | null;
-        createdAt: Date;
     }>;
     updateProfile(user: UserEntity, dto: UpdateProfileDto): Promise<{
         id: string;

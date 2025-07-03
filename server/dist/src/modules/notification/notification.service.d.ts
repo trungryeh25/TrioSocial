@@ -6,8 +6,8 @@ export declare class NotificationService {
     private readonly gateway;
     constructor(prisma: PrismaService, gateway: NotificationGateway);
     create(dto: CreateNotificationDto): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         userId: string;
         type: string;
         message: string;
@@ -15,8 +15,8 @@ export declare class NotificationService {
         isRead: boolean;
     }>;
     findAllByUser(userId: string): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         userId: string;
         type: string;
         message: string;
@@ -24,8 +24,8 @@ export declare class NotificationService {
         isRead: boolean;
     }[]>;
     markAsRead(id: string): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         userId: string;
         type: string;
         message: string;
@@ -33,8 +33,8 @@ export declare class NotificationService {
         isRead: boolean;
     }>;
     remove(id: string): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         userId: string;
         type: string;
         message: string;

@@ -7,8 +7,8 @@ export declare class VoteController {
         userId: string;
         value: number;
     }): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         userId: string;
         postId: string;
         value: number;
@@ -17,8 +17,8 @@ export declare class VoteController {
         postId: string;
         userId: string;
     }): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         userId: string;
         postId: string;
         value: number;

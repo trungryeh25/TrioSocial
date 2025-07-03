@@ -1,8 +1,8 @@
-import { PrismaService } from '@prisma/prisma.service';
-import { JwtService } from '@nestjs/jwt';
-import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
-import { ConfigService } from '@nestjs/config';
+import { PrismaService } from "@prisma/prisma.service";
+import { JwtService } from "@nestjs/jwt";
+import { RegisterDto } from "./dto/register.dto";
+import { LoginDto } from "./dto/login.dto";
+import { ConfigService } from "@nestjs/config";
 export declare class AuthService {
     private readonly prisma;
     private readonly jwtService;
@@ -32,5 +32,6 @@ export declare class AuthService {
             createdAt: Date;
             updatedAt: Date;
         };
+        accessToken: string;
     }>;
 }

@@ -3,27 +3,28 @@ export declare class HashtagService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     findAll(): Promise<{
-        id: string;
         createdAt: Date;
         name: string;
+        id: string;
     }[]>;
     findPostsByHashtag(name: string): Promise<({
         post: {
             comments: {
-                id: string;
                 createdAt: Date;
+                id: string;
                 content: string;
-                postId: string;
                 authorId: string;
+                postId: string;
             }[];
             votes: {
-                id: string;
                 createdAt: Date;
+                id: string;
                 userId: string;
                 postId: string;
                 value: number;
             }[];
             author: {
+                createdAt: Date;
                 id: string;
                 email: string;
                 username: string;
@@ -31,26 +32,25 @@ export declare class HashtagService {
                 bio: string | null;
                 role: import(".prisma/client").$Enums.Role;
                 avatar: string | null;
-                createdAt: Date;
                 updatedAt: Date;
             };
             hashtags: {
                 hashtag: {
-                    id: string;
                     createdAt: Date;
                     name: string;
+                    id: string;
                 };
             }[];
         } & {
-            id: string;
             createdAt: Date;
+            id: string;
             updatedAt: Date;
+            title: string;
             content: string;
             authorId: string;
-            title: string;
         };
     } & {
-        postId: string;
         hashtagId: string;
+        postId: string;
     })[]>;
 }

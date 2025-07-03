@@ -5,4 +5,5 @@ export type User = {
   role: "USER" | "ADMIN";
   avatar?: string;
   createdAt: string;
+  bio: string;
 };

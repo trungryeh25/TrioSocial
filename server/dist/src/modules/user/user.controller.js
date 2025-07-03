@@ -18,15 +18,20 @@ const user_service_1 = require("./user.service");
 const update_user_dto_1 = require("./dto/update-user.dto");
 const roles_decorator_1 = require("../../common/decorators/roles.decorator");
 const roles_guard_1 = require("../auth/guards/roles.guard");
+const friend_service_1 = require("../friend/friend.service");
 let UserController = class UserController {
-    constructor(userService) {
+    constructor(userService, friendService) {
         this.userService = userService;
+        this.friendService = friendService;
     }
     async findAll() {
         return this.userService.findAll();
     }
     async findById(id) {
         return this.userService.findByIdOrThrow(id);
+    }
+    async getFriendsOfUser(id) {
+        return this.friendService.getFriendsOfUser(id);
     }
     async updateUser(id, dto) {
         return this.userService.update(id, dto);
@@ -50,6 +55,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findById", null);
 __decorate([
+    (0, common_1.Get)(":id/friends"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getFriendsOfUser", null);
+__decorate([
     (0, common_1.Patch)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
@@ -68,6 +80,7 @@ exports.UserController = UserController = __decorate([
     (0, common_1.Controller)("users"),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)("USER"),
-    __metadata("design:paramtypes", [user_service_1.UserService])
+    __metadata("design:paramtypes", [user_service_1.UserService,
+        friend_service_1.FriendService])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map

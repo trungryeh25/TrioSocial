@@ -12,12 +12,16 @@ import { UserService } from "./user.service";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { Roles } from "../../common/decorators/roles.decorator";
 import { RolesGuard } from "@modules/auth/guards/roles.guard";
+import { FriendService } from "@modules/friend/friend.service";
 
 @Controller("users")
 @UseGuards(RolesGuard)
 @Roles("USER")
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly friendService: FriendService
+  ) {}
 
   @Get()
   async findAll() {
@@ -27,6 +31,11 @@ export class UserController {
   @Get(":id")
   async findById(@Param("id") id: string) {
     return this.userService.findByIdOrThrow(id);
+  }
+
+  @Get(":id/friends")
+  async getFriendsOfUser(@Param("id") id: string) {
+    return this.friendService.getFriendsOfUser(id);
   }
 
   @Patch(":id")

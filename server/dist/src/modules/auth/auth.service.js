@@ -39,16 +39,16 @@ let AuthService = class AuthService {
             where: { email: dto.email },
         });
         if (existingUser) {
-            throw new common_1.BadRequestException('Email already exists');
+            throw new common_1.BadRequestException("Email already exists");
         }
         if (dto.role === "ADMIN") {
-            const expectedKey = this.configService.get('SECRET_ADMIN_KEY');
+            const expectedKey = this.configService.get("SECRET_ADMIN_KEY");
             if (dto.adminKey !== expectedKey) {
                 throw new common_2.ForbiddenException("Not allowed to register as ADMIN");
             }
         }
         const hashedPassword = await bcrypt.hash(dto.password, constants_1.BCRYPT_SALT_ROUNDS);
-        const role = dto.adminKey === process.env.ADMIN_KEY ? 'ADMIN' : 'USER';
+        const role = dto.adminKey === process.env.ADMIN_KEY ? "ADMIN" : "USER";
         const user = await this.prisma.user.create({
             data: {
                 email: dto.email,
@@ -72,11 +72,11 @@ let AuthService = class AuthService {
             where: { email: dto.email },
         });
         if (!user) {
-            throw new common_1.UnauthorizedException('Invalid credentials');
+            throw new common_1.UnauthorizedException("Invalid credentials");
         }
         const isPasswordValid = await bcrypt.compare(dto.password, user === null || user === void 0 ? void 0 : user.password);
         if (!isPasswordValid) {
-            throw new common_1.UnauthorizedException('Invalid credentials');
+            throw new common_1.UnauthorizedException("Invalid credentials");
         }
         const { password } = user, safeUser = __rest(user, ["password"]);
         const accessToken = this.jwtService.sign({
@@ -85,6 +85,7 @@ let AuthService = class AuthService {
         });
         return {
             user: safeUser,
+            accessToken,
         };
     }
 };

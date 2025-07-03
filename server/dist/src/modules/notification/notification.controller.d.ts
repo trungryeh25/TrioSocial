@@ -4,8 +4,8 @@ export declare class NotificationController {
     private readonly notificationService;
     constructor(notificationService: NotificationService);
     create(dto: CreateNotificationDto): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         userId: string;
         type: string;
         message: string;
@@ -13,8 +13,8 @@ export declare class NotificationController {
         isRead: boolean;
     }>;
     findAllByUser(userId: string): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         userId: string;
         type: string;
         message: string;
@@ -22,8 +22,8 @@ export declare class NotificationController {
         isRead: boolean;
     }[]>;
     markAsRead(id: string): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         userId: string;
         type: string;
         message: string;
@@ -31,8 +31,8 @@ export declare class NotificationController {
         isRead: boolean;
     }>;
     remove(id: string): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         userId: string;
         type: string;
         message: string;

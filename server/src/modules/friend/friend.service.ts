@@ -5,8 +5,7 @@ import {
 } from "@nestjs/common";
 import { PrismaService } from "prisma/prisma.service";
 import { CreateFriendDto } from "./dto/create-friend.dto";
-import { UpdateFriendStatusDto } from "./dto/update-friend.dto";
-import { FriendStatus } from "./interfaces/friend-status.enum";
+import { FriendStatus } from "@prisma/client";
 
 @Injectable()
 export class FriendService {
@@ -17,18 +16,11 @@ export class FriendService {
       throw new ForbiddenException("Cannot friend yourself");
     }
 
-    // ✅ Check nếu đã có mối quan hệ bạn bè hoặc lời mời
     const existing = await this.prisma.friend.findFirst({
       where: {
         OR: [
-          {
-            userId,
-            friendId: dto.friendId,
-          },
-          {
-            userId: dto.friendId,
-            friendId: userId,
-          },
+          { userId, friendId: dto.friendId },
+          { userId: dto.friendId, friendId: userId },
         ],
       },
     });
@@ -41,7 +33,7 @@ export class FriendService {
       data: {
         userId,
         friendId: dto.friendId,
-        status: FriendStatus.PENDING,
+        status: FriendStatus.pending,
       },
     });
   }
@@ -60,7 +52,7 @@ export class FriendService {
 
     return this.prisma.friend.update({
       where: { userId_friendId: { userId: friendId, friendId: userId } },
-      data: { status: FriendStatus.ACCEPTED },
+      data: { status: FriendStatus.accepted },
     });
   }
 
@@ -79,7 +71,7 @@ export class FriendService {
     const sent = await this.prisma.friend.findMany({
       where: {
         userId,
-        status: FriendStatus.ACCEPTED,
+        status: FriendStatus.accepted,
       },
       include: { friend: true },
     });
@@ -87,7 +79,7 @@ export class FriendService {
     const received = await this.prisma.friend.findMany({
       where: {
         friendId: userId,
-        status: FriendStatus.ACCEPTED,
+        status: FriendStatus.accepted,
       },
       include: { user: true },
     });
@@ -95,11 +87,30 @@ export class FriendService {
     return [...sent.map((f) => f.friend), ...received.map((f) => f.user)];
   }
 
+  async getFriendsOfUser(userId: string) {
+    const relations = await this.prisma.friend.findMany({
+      where: {
+        OR: [
+          { userId, status: FriendStatus.accepted },
+          { friendId: userId, status: FriendStatus.accepted },
+        ],
+      },
+      include: {
+        user: true,
+        friend: true,
+      },
+    });
+
+    return relations.map((rel) =>
+      rel.userId === userId ? rel.friend : rel.user
+    );
+  }
+
   async getPendingRequests(userId: string) {
     return this.prisma.friend.findMany({
       where: {
         friendId: userId,
-        status: FriendStatus.PENDING,
+        status: FriendStatus.pending,
       },
       include: { user: true },
     });
@@ -115,7 +126,7 @@ export class FriendService {
       },
     });
 
-    if (!request || request.status !== FriendStatus.PENDING) {
+    if (!request || request.status !== FriendStatus.pending) {
       throw new NotFoundException("No pending friend request found");
     }
 

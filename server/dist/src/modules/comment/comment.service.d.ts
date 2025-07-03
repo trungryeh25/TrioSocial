@@ -5,14 +5,15 @@ export declare class CommentService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     create(userId: string, postId: string, dto: CreateCommentDto): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         content: string;
-        postId: string;
         authorId: string;
+        postId: string;
     }>;
     findAllByPost(postId: string): Promise<({
         author: {
+            createdAt: Date;
             id: string;
             email: string;
             username: string;
@@ -20,26 +21,26 @@ export declare class CommentService {
             bio: string | null;
             role: import(".prisma/client").$Enums.Role;
             avatar: string | null;
-            createdAt: Date;
             updatedAt: Date;
         };
     } & {
-        id: string;
         createdAt: Date;
+        id: string;
         content: string;
-        postId: string;
         authorId: string;
+        postId: string;
     })[]>;
     findOne(id: string): Promise<{
         post: {
-            id: string;
             createdAt: Date;
+            id: string;
             updatedAt: Date;
+            title: string;
             content: string;
             authorId: string;
-            title: string;
         };
         author: {
+            createdAt: Date;
             id: string;
             email: string;
             username: string;
@@ -47,28 +48,27 @@ export declare class CommentService {
             bio: string | null;
             role: import(".prisma/client").$Enums.Role;
             avatar: string | null;
-            createdAt: Date;
             updatedAt: Date;
         };
     } & {
-        id: string;
         createdAt: Date;
+        id: string;
         content: string;
-        postId: string;
         authorId: string;
+        postId: string;
     }>;
     update(id: string, dto: UpdateCommentDto): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         content: string;
-        postId: string;
         authorId: string;
+        postId: string;
     }>;
     remove(id: string): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         content: string;
-        postId: string;
         authorId: string;
+        postId: string;
     }>;
 }

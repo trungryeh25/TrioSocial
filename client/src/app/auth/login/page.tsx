@@ -26,10 +26,14 @@ export default function LoginPage() {
       const user = res.data.user;
 
       console.log("User Role:", user.role);
+      console.log("Login response:", res.data);
 
       localStorage.setItem("token", res.data.accessToken);
       // Optional: set user info to state or localStorage when we need.
       localStorage.setItem("role", user.role);
+      localStorage.setItem("userId", user.id);
+
+      console.log("AccessToken:", res.data.accessToken);
 
       // router.push(user.role === "ADMIN" ? "/dashboard" : "/news-feed");
       if (user.role === "ADMIN") {

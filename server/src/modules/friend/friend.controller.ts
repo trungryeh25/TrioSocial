@@ -39,9 +39,15 @@ export class FriendController {
     return this.friendService.removeFriend(userId, friendId);
   }
 
-  @Get("me")
-  getFriends(@CurrentUser("id") userId: string) {
-    return this.friendService.getFriends(userId);
+  // @Get("me")
+  // getFriends(@CurrentUser("id") userId: string) {
+  //   return this.friendService.getFriends(userId);
+  // }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(":id/friends")
+  getFriends(@Param("id") id: string) {
+    return this.friendService.getFriendsOfUser(id);
   }
 
   @Get("pending")

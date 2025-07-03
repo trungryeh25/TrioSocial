@@ -6,14 +6,15 @@ export declare class CommentController {
     private readonly commentService;
     constructor(commentService: CommentService);
     create(postId: string, user: UserEntity, dto: CreateCommentDto): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         content: string;
-        postId: string;
         authorId: string;
+        postId: string;
     }>;
     findAllByPost(postId: string): Promise<({
         author: {
+            createdAt: Date;
             id: string;
             email: string;
             username: string;
@@ -21,28 +22,27 @@ export declare class CommentController {
             bio: string | null;
             role: import(".prisma/client").$Enums.Role;
             avatar: string | null;
-            createdAt: Date;
             updatedAt: Date;
         };
     } & {
-        id: string;
         createdAt: Date;
+        id: string;
         content: string;
-        postId: string;
         authorId: string;
+        postId: string;
     })[]>;
     update(id: string, dto: UpdateCommentDto): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         content: string;
-        postId: string;
         authorId: string;
+        postId: string;
     }>;
     remove(id: string): Promise<{
-        id: string;
         createdAt: Date;
+        id: string;
         content: string;
-        postId: string;
         authorId: string;
+        postId: string;
     }>;
 }

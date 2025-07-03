@@ -18,6 +18,7 @@ exports.FriendModule = FriendModule = __decorate([
     (0, common_1.Module)({
         imports: [prisma_module_1.PrismaModule],
         providers: [friend_service_1.FriendService],
+        exports: [friend_service_1.FriendService],
         controllers: [friend_controller_1.FriendController],
     })
 ], FriendModule);
