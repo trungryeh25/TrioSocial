@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Comment } from "@/types/comment";
-import toast from "react-hot-toast";
 
 interface Props {
   comment: Comment;
@@ -11,39 +10,76 @@ interface Props {
   editAction: (id: string, newContent: string) => void;
 }
 
-export default function CommentActions({ comment, voteAction, deleteAction, editAction }: Props) {
+export default function CommentActions({
+  comment,
+  voteAction,
+  deleteAction,
+  editAction,
+}: Props) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editContent, setEditContent] = useState(comment.content);
+  const [content, setContent] = useState(comment.content);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
 
   const handleSave = () => {
-    if (!editContent.trim()) {
-      toast.error("Content cannot be empty");
-      return;
-    }
-    editAction(comment.id, editContent);
+    editAction(comment.id, content);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setContent(comment.content);
     setIsEditing(false);
   };
 
   return (
-    <div className="flex flex-col gap-2 mt-2">
+    <div className="flex gap-2 mt-2 text-sm">
+      <button
+        onClick={() => voteAction(comment.id)}
+        className="text-green-500 hover:underline"
+      >
+        👍 {comment.votes || 0}
+      </button>
+
       {isEditing ? (
         <>
-          <textarea
-            value={editContent}
-            onChange={(e) => setEditContent(e.target.value)}
-            className="border p-2 rounded w-full text-sm"
-          />
-          <div className="flex gap-2">
-            <button onClick={handleSave} className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Save</button>
-            <button onClick={() => setIsEditing(false)} className="border px-3 py-1 rounded">Cancel</button>
-          </div>
+          <button
+            onClick={handleSave}
+            className="text-blue-500 hover:underline"
+          >
+            Save
+          </button>
+          <button
+            onClick={handleCancel}
+            className="text-gray-500 hover:underline"
+          >
+            Cancel
+          </button>
         </>
       ) : (
-        <div className="flex gap-3 text-xs text-gray-500">
-          <button onClick={() => voteAction(comment.id)} className="hover:underline">❤️ {comment.votes || 0}</button>
-          <button onClick={() => setIsEditing(true)} className="text-blue-500 hover:underline">Edit</button>
-          <button onClick={() => deleteAction(comment.id)} className="text-red-500 hover:underline">Delete</button>
-        </div>
+        <>
+          <button
+            onClick={handleEdit}
+            className="text-blue-500 hover:underline"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => deleteAction(comment.id)}
+            className="text-red-500 hover:underline"
+          >
+            Delete
+          </button>
+        </>
+      )}
+
+      {isEditing && (
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          className="w-full border p-1 rounded mt-1"
+        />
       )}
     </div>
   );
