@@ -10,9 +10,11 @@ import CommentForm from "@/components/comment/CommentForm";
 
 interface Props {
   postId: string;
+  parentId?: string;
+  level?: number;
 }
 
-export default function CommentList({ postId }: Props) {
+export default function CommentList({ postId, parentId, level = 0 }: Props) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [replyTo, setReplyTo] = useState<string | null>(null);
@@ -20,14 +22,16 @@ export default function CommentList({ postId }: Props) {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await api.get(`/posts/${postId}/comments`);
+        const res = await api.get(`/posts/${postId}/comments`, {
+          params: { parentId },
+        });
         setComments(res.data);
       } catch (err: any) {
         toast.error("Failed to load comments");
       }
     };
     fetchComments();
-  }, [postId]);
+  }, [postId, parentId]);
 
   const handleVoteAction = (id: string) => {
     setComments((prev) =>
@@ -68,41 +72,44 @@ export default function CommentList({ postId }: Props) {
   };
 
   return (
-    <div className="space-y-3">
-      {comments.length > 0 ? (
-        comments.map((c) => (
-          <div key={c.id} className="border p-3 rounded">
-            <p className="text-sm font-semibold">{c.author.username}</p>
-            <p className="text-gray-700">{c.content}</p>
+    <div className="space-y-3" style={{ marginLeft: level * 20 }}>
+      {comments.length > 0
+        ? comments.map((c) => (
+            <div key={c.id} className="border p-3 rounded">
+              <p className="text-sm font-semibold">{c.author.username}</p>
+              <p className="text-gray-700">{c.content}</p>
 
-            <CommentActions
-              comment={c}
-              voteAction={handleVoteAction}
-              deleteAction={handleDeleteAction}
-              editAction={handleEditAction}
-            />
+              <CommentActions
+                comment={c}
+                voteAction={handleVoteAction}
+                deleteAction={handleDeleteAction}
+                editAction={handleEditAction}
+              />
 
-            <button
-              onClick={() => handleReply(c.id)}
-              className="text-blue-500 text-sm mt-1"
-            >
-              Reply
-            </button>
+              <button
+                onClick={() => handleReply(c.id)}
+                className="text-blue-500 text-sm mt-1"
+              >
+                Reply
+              </button>
 
-            {replyTo === c.id && (
-              <div className="mt-2 ml-4">
-                <CommentForm
-                  postId={postId}
-                  parentId={c.id}
-                  onAdded={handleReplyAdded}
-                />
-              </div>
-            )}
-          </div>
-        ))
-      ) : (
-        <p className="text-gray-500">No comments yet.</p>
-      )}
+              {replyTo === c.id && (
+                <div className="mt-2">
+                  <CommentForm
+                    postId={postId}
+                    parentId={c.id}
+                    onAdded={handleReplyAdded}
+                  />
+                </div>
+              )}
+
+              {/* Render replies đệ quy */}
+              <CommentList postId={postId} parentId={c.id} level={level + 1} />
+            </div>
+          ))
+        : parentId === undefined && (
+            <p className="text-gray-500">No comments yet.</p>
+          )}
 
       {deleteId && (
         <ConfirmModal
