@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { api } from "@/lib/api";
-import { User } from "@/types/user";
+import { api } from "../../../../../lib/api";
+import { User } from "../../../../../types/user";
 import { Button } from "@/components/ui/button";
 
 export default function EditUserPage() {

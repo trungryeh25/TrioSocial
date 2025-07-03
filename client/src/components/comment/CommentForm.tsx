@@ -2,8 +2,8 @@
 
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { api } from "@/lib/api";
-import { Comment } from "@/types/comment";
+import { api } from "../../../lib/api";
+import { Comment } from "../../../types/comment";
 
 interface Props {
   postId: string;

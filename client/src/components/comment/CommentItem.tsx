@@ -1,6 +1,6 @@
 "use client";
 
-import { Comment } from "@/types/comment";
+import { Comment } from "../../../types/comment";
 import { useState } from "react";
 import CommentForm from "./CommentForm";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import { Post } from "@/types/post";
+import { Post } from "../../../types/post";
 import { useState } from "react";
 import toast from "react-hot-toast";
 

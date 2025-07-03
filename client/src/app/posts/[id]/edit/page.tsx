@@ -2,11 +2,11 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter, useParams } from "next/navigation";
-import { api } from "@/lib/api";
+import { api } from "../../../../../lib/api";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { Post } from "@/types/post";
+import { Post } from "../../../../../types/post";
 
 type PostForm = {
   title: string;

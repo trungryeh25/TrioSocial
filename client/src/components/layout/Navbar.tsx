@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { User } from "@/types/user";
-import { api } from "@/lib/api";
+import { User } from "../../../types/user";
+import { api } from "../../../lib/api";
 
 export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);

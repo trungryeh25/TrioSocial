@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Post } from "@/types/post";
+import { Post } from "../../../types/post";
 
 interface Props {
   post: Post;
@@ -16,7 +16,9 @@ export default function PostCard({ post }: Props) {
       <p className="text-sm text-gray-600 mt-1">By {post.author.username}</p>
 
       <p className="mt-2 text-gray-800 line-clamp-3">
-        {post.content.length > 100 ? `${post.content.slice(0, 100)}...` : post.content}
+        {post.content.length > 100
+          ? `${post.content.slice(0, 100)}...`
+          : post.content}
       </p>
 
       {/* Optional footer section (votes, comments, hashtags) */}

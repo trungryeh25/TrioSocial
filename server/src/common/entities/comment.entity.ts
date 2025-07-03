@@ -1,10 +1,8 @@
-// import { Comment } from '@prisma/client';
-
-export class Comment {
-  id!: string;
-  content!: string;
-  postId!: string;
-  userId!: string;
-  createdAt!: Date;
-  updatedAt!: Date;
+export interface CommentEntity {
+  id: string;
+  content: string;
+  postId: string;
+  authorId: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

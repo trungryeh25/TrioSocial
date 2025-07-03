@@ -1,47 +1,56 @@
 import {
   Controller,
-  Post,
   Get,
+  Post,
   Body,
+  Patch,
   Param,
   Delete,
-  Patch,
   UseGuards,
+  Req,
 } from "@nestjs/common";
-
 import { CommentService } from "./comment.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { UpdateCommentDto } from "./dto/update-comment.dto";
 import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
-import { CurrentUser } from "@common/decorators/current-user.decorator";
-import { UserEntity } from "@common/entities/user.entity";
+import { Request } from "express";
 
-@UseGuards(JwtAuthGuard)
 @Controller("comments")
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  @Post(":postId")
-  create(
-    @Param("postId") postId: string,
-    @CurrentUser() user: UserEntity,
-    @Body() dto: CreateCommentDto
-  ) {
-    return this.commentService.create(user.id, postId, dto);
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  create(@Req() req: Request, @Body() dto: CreateCommentDto) {
+    const user = req.user as any;
+    return this.commentService.create(user.id, dto);
   }
 
-  @Get("post/:postId")
-  findAllByPost(@Param("postId") postId: string) {
-    return this.commentService.findAllByPost(postId);
+  @Get()
+  findAll() {
+    return this.commentService.findAll();
+  }
+
+  @Get(":id")
+  findOne(@Param("id") id: string) {
+    return this.commentService.findOne(id);
   }
 
   @Patch(":id")
-  update(@Param("id") id: string, @Body() dto: UpdateCommentDto) {
-    return this.commentService.update(id, dto);
+  @UseGuards(JwtAuthGuard)
+  update(
+    @Req() req: Request,
+    @Param("id") id: string,
+    @Body() dto: UpdateCommentDto
+  ) {
+    const user = req.user as any;
+    return this.commentService.update(user.id, id, dto);
   }
 
   @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.commentService.remove(id);
+  @UseGuards(JwtAuthGuard)
+  remove(@Req() req: Request, @Param("id") id: string) {
+    const user = req.user as any;
+    return this.commentService.remove(user.id, id);
   }
 }

@@ -2,7 +2,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PostCard from "@/components/post/PostCard";
 import Navbar from "@/components/layout/Navbar";
-import { Post } from "@/types/post";
+import { Post } from "../../types/post";
 
 const demoPosts: Post[] = [
   {

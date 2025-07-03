@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Comment } from "@/types/comment";
+import { Comment } from "../../../types/comment";
 
 interface Props {
   comment: Comment;

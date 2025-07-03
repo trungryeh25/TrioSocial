@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { api } from "@/lib/api";
-import { decodeJWT } from "@/lib/jwt";
-import { User } from "@/types/user";
-import { Post } from "@/types/post";
+import { api } from "../../../../../lib/api";
+import { decodeJWT } from "../../../../../lib/jwt";
+import { User } from "../../../../../types/user";
+import { Post } from "../../../../../types/post";
 import UserAvatar from "@/components/user/UserAvatar";
 import UserInfoCard from "@/components/user/UserInfoCard";
 import UserPosts from "@/components/user/UserPosts";
@@ -22,7 +22,7 @@ export default function UserProfilePage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     // console.log("Token:", token);
-    
+
     if (token) {
       try {
         const payload = decodeJWT(token);

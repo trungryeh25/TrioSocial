@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@import "./typography.css";
+
 @keyframes fadeIn {
   from {
     opacity: 0;

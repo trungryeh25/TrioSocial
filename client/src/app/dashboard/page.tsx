@@ -4,7 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import UserCard from "@/components/user/UserCard";
 import UserActionButtons from "@/components/user/UserActionButtons";
-import { User } from "@/types/user";
+import { User } from "../../../types/user";
 
 const demoUser: User = {
   id: "u1",
