@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
 const update_user_dto_1 = require("./dto/update-user.dto");
 const roles_decorator_1 = require("../../common/decorators/roles.decorator");
-const roles_guard_1 = require("../auth/guards/roles.guard");
+const roles_guard_1 = require("../../common/guards/roles.guard");
 const friend_service_1 = require("../friend/friend.service");
 let UserController = class UserController {
     constructor(userService, friendService) {

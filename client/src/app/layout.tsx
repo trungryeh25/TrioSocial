@@ -2,8 +2,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "Trio Community Platform",
@@ -21,3 +21,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     </html>
   );
 }
+
+
+// import "@/styles/globals.css";
+// import { Toaster } from "react-hot-toast";
+
+// export default function RootLayout({ children }: { children: React.ReactNode }) {
+//   return (
+//     <html lang="en">
+//       <body>
+//         {children}
+//         <Toaster position="top-center" />
+//       </body>
+//     </html>
+//   );
+// }

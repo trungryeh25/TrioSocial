@@ -1,30 +1,38 @@
-"use client";
+// src/app/dashboard/page.tsx
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import UserCard from "@/components/user/UserCard";
+import UserActionButtons from "@/components/user/UserActionButtons";
+import { User } from "@/types/user";
+
+const demoUser: User = {
+  id: "u1",
+  username: "alice",
+  email: "alice@example.com",
+  bio: "Full-stack developer and coffee lover ☕",
+};
 
 export default function DashboardPage() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const role = localStorage.getItem("role");
-    const token = localStorage.getItem("token");
-    if (!token || role !== "ADMIN") {
-      router.push("/");
-    } else {
-      setLoading(false);
-    }
-  }, [router]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div>
-      <h1 className="text-3xl font-bold">Welcome Admin!</h1>
-      <p className="text-gray-600">This is the admin dashboard.</p>
-    </div>
+    <>
+      <Navbar />
+
+      <main className="container mx-auto px-4 py-8 mt-16">
+        <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <UserCard user={demoUser} />
+          <div className="flex items-center justify-center">
+            <UserActionButtons
+              onEdit={() => alert("Edit user")}
+              onDelete={() => alert("Delete user")}
+            />
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </>
   );
 }

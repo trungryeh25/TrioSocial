@@ -11,7 +11,7 @@ import {
 import { AdminUserService } from "./admin-user.service";
 import { AdminCreateUserDto } from "./dto/admin-create-user.dto";
 import { AdminUpdateUserDto } from "./dto/admin-update-user.dto";
-import { RolesGuard } from "@modules/auth/guards/roles.guard";
+import { RolesGuard } from "common/guards/roles.guard";
 import { Roles } from "../../../common/decorators/roles.decorator";
 
 @Controller("admin/users")

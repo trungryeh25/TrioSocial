@@ -1,9 +1,9 @@
 import { Controller, Post, Body, Get, Param, UseGuards } from "@nestjs/common";
 import { PostService } from "./post.service";
 import { CreatePostDto } from "./dto/create-post.dto";
-import { JwtAuthGuard } from "@modules/auth/guards/jwt-auth.guard";
-import { CurrentUser } from "../../common/decorators/current-user.decorator";
-import { UserEntity } from "@modules/user/entities/user.entity";
+import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
+import { CurrentUser } from "@common/decorators/current-user.decorator";
+import { UserEntity } from "@common/entities/user.entity";
 
 @Controller("posts")
 export class PostController {

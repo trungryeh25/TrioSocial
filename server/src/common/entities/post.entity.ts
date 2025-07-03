@@ -1,6 +1,6 @@
-import { Comment } from '@comment/entities/comment.entity';
-import { UserEntity } from '@user/entities/user.entity';
-import { Hashtag } from '@hashtag/entities/hashtag.entity';
+import { Comment } from "@common/entities/comment.entity";
+import { UserEntity } from "@common/entities/user.entity";
+import { Hashtag } from "@common/entities/hashtag.entity";
 
 export class Post {
   id!: string;

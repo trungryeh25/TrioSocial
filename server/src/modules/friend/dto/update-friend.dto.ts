@@ -1,5 +1,5 @@
 import { IsEnum } from 'class-validator';
-import { FriendStatus } from '../interfaces/friend-status.enum';
+import { FriendStatus } from '../../../common/entities/friend-status.enum';
 
 export class UpdateFriendStatusDto {
   @IsEnum(FriendStatus)

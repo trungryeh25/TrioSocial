@@ -10,8 +10,8 @@ import {
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { Roles } from "../../common/decorators/roles.decorator";
-import { RolesGuard } from "@modules/auth/guards/roles.guard";
+import { Roles } from "@common/decorators/roles.decorator";
+import { RolesGuard } from "@common/guards/roles.guard";
 import { FriendService } from "@modules/friend/friend.service";
 
 @Controller("users")

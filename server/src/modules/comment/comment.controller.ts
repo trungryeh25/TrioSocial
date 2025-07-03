@@ -12,9 +12,9 @@ import {
 import { CommentService } from "./comment.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { UpdateCommentDto } from "./dto/update-comment.dto";
-import { JwtAuthGuard } from "@modules/auth/guards/jwt-auth.guard";
-import { CurrentUser } from "../../common/decorators/current-user.decorator";
-import { UserEntity } from "@modules/user/entities/user.entity";
+import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
+import { CurrentUser } from "@common/decorators/current-user.decorator";
+import { UserEntity } from "@common/entities/user.entity";
 
 @UseGuards(JwtAuthGuard)
 @Controller("comments")

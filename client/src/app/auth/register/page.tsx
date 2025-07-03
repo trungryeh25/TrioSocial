@@ -34,15 +34,15 @@ export default function RegisterPage() {
     }
 
     try {
-      await api.post("auth/register", {
+      await api.post("/auth/register", {
         username: data.username,
         email: data.email,
         password: data.password,
         adminKey: data.role === "ADMIN" ? data.adminKey : undefined,
       });
-      router.push("auth/login");
+      router.push("/auth/login");
     } catch (err: any) {
-      setServerError(err.response?.data?.message || "Register is failed");
+      setServerError(err.response?.data?.message || "Register failed");
     }
   };
 
@@ -57,9 +57,9 @@ export default function RegisterPage() {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
         <input
           type="text"
-          placeholder="Enter an username"
+          placeholder="Username"
           {...register("username", { required: "Username is required" })}
-          className="input input-bordered"
+          className="border p-2 rounded"
         />
         {errors.username && (
           <p className="text-red-500 text-sm">{errors.username.message}</p>
@@ -67,7 +67,7 @@ export default function RegisterPage() {
 
         <input
           type="email"
-          placeholder="Enter an email"
+          placeholder="Email"
           {...register("email", {
             required: "Email is required",
             pattern: {
@@ -75,7 +75,7 @@ export default function RegisterPage() {
               message: "Invalid email",
             },
           })}
-          className="input input-bordered"
+          className="border p-2 rounded"
         />
         {errors.email && (
           <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -83,15 +83,12 @@ export default function RegisterPage() {
 
         <input
           type="password"
-          placeholder="Enter a password"
+          placeholder="Password"
           {...register("password", {
             required: "Password is required",
-            minLength: {
-              value: 8,
-              message: "Password at least 8 characters",
-            },
+            minLength: { value: 8, message: "At least 8 characters" },
           })}
-          className="input input-bordered"
+          className="border p-2 rounded"
         />
         {errors.password && (
           <p className="text-red-500 text-sm">{errors.password.message}</p>
@@ -99,11 +96,11 @@ export default function RegisterPage() {
 
         <input
           type="password"
-          placeholder="Re-enter a password"
+          placeholder="Confirm Password"
           {...register("confirmPassword", {
-            required: "Please re-enter a password",
+            required: "Please confirm your password",
           })}
-          className="input input-bordered"
+          className="border p-2 rounded"
         />
         {errors.confirmPassword && (
           <p className="text-red-500 text-sm">
@@ -111,7 +108,7 @@ export default function RegisterPage() {
           </p>
         )}
 
-        <select {...register("role")} className="select select-bordered">
+        <select {...register("role")} className="border p-2 rounded">
           <option value="USER">User</option>
           {process.env.NODE_ENV === "development" && (
             <option value="ADMIN">Admin (internal only)</option>
@@ -124,7 +121,7 @@ export default function RegisterPage() {
               type="password"
               placeholder="Admin secret key"
               {...register("adminKey", { required: "Admin key is required" })}
-              className="input input-bordered"
+              className="border p-2 rounded"
             />
             {errors.adminKey && (
               <p className="text-red-500 text-sm">{errors.adminKey.message}</p>
@@ -132,7 +129,10 @@ export default function RegisterPage() {
           </>
         )}
 
-        <button type="submit" className="btn btn-primary w-full">
+        <button
+          type="submit"
+          className="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
           Register
         </button>
       </form>

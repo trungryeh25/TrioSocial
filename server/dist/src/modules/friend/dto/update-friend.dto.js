@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateFriendStatusDto = void 0;
 const class_validator_1 = require("class-validator");
-const friend_status_enum_1 = require("../interfaces/friend-status.enum");
+const friend_status_enum_1 = require("../../../common/entities/friend-status.enum");
 class UpdateFriendStatusDto {
 }
 exports.UpdateFriendStatusDto = UpdateFriendStatusDto;

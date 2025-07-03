@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileController = void 0;
 const common_1 = require("@nestjs/common");
 const profile_service_1 = require("./profile.service");
-const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const jwt_auth_guard_1 = require("../../common/guards/jwt-auth.guard");
 const current_user_decorator_1 = require("../../common/decorators/current-user.decorator");
-const user_entity_1 = require("../user/entities/user.entity");
+const user_entity_1 = require("../../common/entities/user.entity");
 const update_profile_dto_1 = require("./dto/update-profile.dto");
 let ProfileController = class ProfileController {
     constructor(profileService) {

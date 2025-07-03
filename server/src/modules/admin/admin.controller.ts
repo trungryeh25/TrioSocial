@@ -1,7 +1,7 @@
 import { Controller, Get, UseGuards } from "@nestjs/common";
-import { JwtAuthGuard } from "@modules/auth/guards/jwt-auth.guard";
-import { RolesGuard } from "@modules/auth/guards/roles.guard";
-import { Roles } from "../../common/decorators/roles.decorator";
+import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
+import { RolesGuard } from "@common/guards/roles.guard";
+import { Roles } from "@common/decorators/roles.decorator";
 
 @Controller("admin")
 @UseGuards(JwtAuthGuard, RolesGuard)

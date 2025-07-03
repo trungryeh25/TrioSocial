@@ -17,34 +17,18 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm<LoginForm>();
 
-  const router = useRouter();
   const [serverError, setServerError] = useState("");
+  const router = useRouter();
 
   const onSubmit = async (data: LoginForm) => {
     try {
-      const res = await api.post("/auth/login", data);
-      const user = res.data.user;
-
-      console.log("User Role:", user.role);
-      console.log("Login response:", res.data);
-
-      localStorage.setItem("token", res.data.accessToken);
-      // Optional: set user info to state or localStorage when we need.
-      localStorage.setItem("role", user.role);
-      localStorage.setItem("userId", user.id);
-
-      console.log("AccessToken:", res.data.accessToken);
-
-      // router.push(user.role === "ADMIN" ? "/dashboard" : "/news-feed");
-      if (user.role === "ADMIN") {
-        router.push("/dashboard");
-      } else {
-        router.push("/");
-      }
+      await api.post("/auth/login", {
+        email: data.email,
+        password: data.password,
+      });
+      router.push("/dashboard");
     } catch (err: any) {
-      setServerError(
-        err.response?.data?.message || "Email or password is incorrecting."
-      );
+      setServerError(err.response?.data?.message || "Login failed");
     }
   };
 
@@ -59,9 +43,15 @@ export default function LoginPage() {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
         <input
           type="email"
-          placeholder="Enter an email"
-          {...register("email", { required: "Email is required" })}
-          className="input input-bordered"
+          placeholder="Email"
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /^\S+@\S+\.\S+$/,
+              message: "Invalid email",
+            },
+          })}
+          className="border p-2 rounded"
         />
         {errors.email && (
           <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -69,27 +59,31 @@ export default function LoginPage() {
 
         <input
           type="password"
-          placeholder="Enter a password"
+          placeholder="Password"
           {...register("password", { required: "Password is required" })}
-          className="input input-bordered"
+          className="border p-2 rounded"
         />
         {errors.password && (
           <p className="text-red-500 text-sm">{errors.password.message}</p>
         )}
 
-        <p className="text-sm text-right">
-          <a
-            href="/auth/forgot-password"
-            className="text-blue-600 hover:underline"
-          >
-            Forgot password?
-          </a>
-        </p>
-
-        <button type="submit" className="btn btn-primary w-full">
+        <button
+          type="submit"
+          className="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
           Login
         </button>
       </form>
+
+      <p className="text-sm text-center mt-4">
+        Forgot your password?{" "}
+        <a
+          href="/auth/forgot-password"
+          className="text-primary hover:underline"
+        >
+          Reset
+        </a>
+      </p>
     </main>
   );
 }

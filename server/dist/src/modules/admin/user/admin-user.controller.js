@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const admin_user_service_1 = require("./admin-user.service");
 const admin_create_user_dto_1 = require("./dto/admin-create-user.dto");
 const admin_update_user_dto_1 = require("./dto/admin-update-user.dto");
-const roles_guard_1 = require("../../auth/guards/roles.guard");
+const roles_guard_1 = require("../../../common/guards/roles.guard");
 const roles_decorator_1 = require("../../../common/decorators/roles.decorator");
 let AdminUserController = class AdminUserController {
     constructor(adminUserService) {

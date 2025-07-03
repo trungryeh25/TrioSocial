@@ -1,21 +1,21 @@
 import { CommentService } from "./comment.service";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { UpdateCommentDto } from "./dto/update-comment.dto";
-import { UserEntity } from "@modules/user/entities/user.entity";
+import { UserEntity } from "@common/entities/user.entity";
 export declare class CommentController {
     private readonly commentService;
     constructor(commentService: CommentService);
     create(postId: string, user: UserEntity, dto: CreateCommentDto): Promise<{
-        createdAt: Date;
         id: string;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
+        createdAt: Date;
     }>;
     findAllByPost(postId: string): Promise<({
         author: {
-            createdAt: Date;
             id: string;
+            createdAt: Date;
             email: string;
             username: string;
             password: string;
@@ -25,24 +25,24 @@ export declare class CommentController {
             updatedAt: Date;
         };
     } & {
-        createdAt: Date;
         id: string;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
+        createdAt: Date;
     })[]>;
     update(id: string, dto: UpdateCommentDto): Promise<{
-        createdAt: Date;
         id: string;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
+        createdAt: Date;
     }>;
     remove(id: string): Promise<{
-        createdAt: Date;
         id: string;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
+        createdAt: Date;
     }>;
 }

@@ -1,14 +1,41 @@
-import { Comment } from "@/types/comment";
+"use client";
 
-export default function CommentList({ comments }: { comments: Comment[] }) {
+import { useEffect, useState } from "react";
+import { api } from "@/lib/api";
+import { Comment } from "@/types/comment";
+import toast from "react-hot-toast";
+
+interface Props {
+  postId: string;
+}
+
+export default function CommentList({ postId }: Props) {
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await api.get(`/posts/${postId}/comments`);
+        setComments(res.data);
+      } catch (err: any) {
+        toast.error("Failed to load comments");
+      }
+    };
+    fetchComments();
+  }, [postId]);
+
   return (
-    <ul className="space-y-2">
-      {comments.map((c) => (
-        <li key={c.id} className="border-b pb-2">
-          <p className="text-sm">{c.content}</p>
-          <p className="text-xs text-gray-400">By {c.author.username}</p>
-        </li>
-      ))}
-    </ul>
+    <div className="space-y-3">
+      {comments.length > 0 ? (
+        comments.map((c) => (
+          <div key={c.id} className="border p-2 rounded">
+            <p className="text-sm font-semibold">{c.author.username}</p>
+            <p className="text-gray-700">{c.content}</p>
+          </div>
+        ))
+      ) : (
+        <p className="text-gray-500">No comments yet.</p>
+      )}
+    </div>
   );
 }

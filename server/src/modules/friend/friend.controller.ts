@@ -9,8 +9,8 @@ import {
   Get,
 } from "@nestjs/common";
 import { FriendService } from "./friend.service";
-import { JwtAuthGuard } from "common/guards/jwt-auth.guard";
-import { CurrentUser } from "common/decorators/current-user.decorator";
+import { JwtAuthGuard } from "@common/guards/jwt-auth.guard";
+import { CurrentUser } from "@common/decorators/current-user.decorator";
 import { CreateFriendDto } from "./dto/create-friend.dto";
 
 @Controller("friends")

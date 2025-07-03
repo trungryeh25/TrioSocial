@@ -13,6 +13,7 @@
     "paths": {
       "@prisma/*": ["prisma/*"],
       "@modules/*": ["modules/*"],
+      "@common/*": ["common/*"],
       "@auth/*": ["modules/auth/*"],
       "@user/*": ["modules/user/*"],
       "@post/*": ["modules/post/*"],
@@ -20,7 +21,7 @@
       "@vote/*": ["modules/vote/*"],
       "@hashtag/*": ["modules/hashtag/*"],
       "@notification/*": ["modules/notification/*"],
-      "@guards/*": ["guards/*"], 
+      "@guards/*": ["guards/*"],
       "@decorators/*": ["decorators/*"],
       "@prismaService": ["prisma/prisma.service"]
     },

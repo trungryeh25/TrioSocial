@@ -5,11 +5,11 @@ export declare class UserController {
     private readonly userService;
     private readonly friendService;
     constructor(userService: UserService, friendService: FriendService);
-    findAll(): Promise<import("./entities/user.entity").UserEntity[]>;
-    findById(id: string): Promise<import("./entities/user.entity").UserEntity>;
+    findAll(): Promise<import("../../common/entities/user.entity").UserEntity[]>;
+    findById(id: string): Promise<import("../../common/entities/user.entity").UserEntity>;
     getFriendsOfUser(id: string): Promise<{
-        createdAt: Date;
         id: string;
+        createdAt: Date;
         email: string;
         username: string;
         password: string;
@@ -18,6 +18,6 @@ export declare class UserController {
         avatar: string | null;
         updatedAt: Date;
     }[]>;
-    updateUser(id: string, dto: UpdateUserDto): Promise<import("./entities/user.entity").UserEntity>;
-    deleteUser(id: string): Promise<import("./entities/user.entity").UserEntity>;
+    updateUser(id: string, dto: UpdateUserDto): Promise<import("../../common/entities/user.entity").UserEntity>;
+    deleteUser(id: string): Promise<import("../../common/entities/user.entity").UserEntity>;
 }

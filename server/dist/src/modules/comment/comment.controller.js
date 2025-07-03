@@ -17,9 +17,9 @@ const common_1 = require("@nestjs/common");
 const comment_service_1 = require("./comment.service");
 const create_comment_dto_1 = require("./dto/create-comment.dto");
 const update_comment_dto_1 = require("./dto/update-comment.dto");
-const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const jwt_auth_guard_1 = require("../../common/guards/jwt-auth.guard");
 const current_user_decorator_1 = require("../../common/decorators/current-user.decorator");
-const user_entity_1 = require("../user/entities/user.entity");
+const user_entity_1 = require("../../common/entities/user.entity");
 let CommentController = class CommentController {
     constructor(commentService) {
         this.commentService = commentService;
