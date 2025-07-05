@@ -1,5 +1,6 @@
 import { PostService } from "./post.service";
 import { CreatePostDto } from "./dto/create-post.dto";
+import { UpdatePostDto } from "./dto/update-post.dto";
 import { UserEntity } from "@common/entities/user.entity";
 export declare class PostController {
     private readonly postService;
@@ -14,41 +15,20 @@ export declare class PostController {
         }[];
     } & {
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         title: string;
         content: string;
         authorId: string;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
-    getPostById(id: string): Promise<{
-        author: {
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
-            email: string;
-            username: string;
-            password: string;
-            bio: string | null;
-            role: import(".prisma/client").$Enums.Role;
-            avatar: string | null;
-        };
+    getAllPosts(): Promise<({
         comments: {
             id: string;
+            createdAt: Date;
             content: string;
             authorId: string;
-            createdAt: Date;
             postId: string;
         }[];
-        hashtags: ({
-            hashtag: {
-                id: string;
-                createdAt: Date;
-                name: string;
-            };
-        } & {
-            hashtagId: string;
-            postId: string;
-        })[];
         votes: {
             id: string;
             createdAt: Date;
@@ -56,33 +36,17 @@ export declare class PostController {
             userId: string;
             value: number;
         }[];
-    } & {
-        id: string;
-        title: string;
-        content: string;
-        authorId: string;
-        createdAt: Date;
-        updatedAt: Date;
-    }>;
-    getAllPosts(): Promise<({
         author: {
             id: string;
-            createdAt: Date;
-            updatedAt: Date;
             email: string;
             username: string;
             password: string;
             bio: string | null;
             role: import(".prisma/client").$Enums.Role;
             avatar: string | null;
-        };
-        comments: {
-            id: string;
-            content: string;
-            authorId: string;
             createdAt: Date;
-            postId: string;
-        }[];
+            updatedAt: Date;
+        };
         hashtags: {
             hashtag: {
                 id: string;
@@ -90,6 +54,22 @@ export declare class PostController {
                 name: string;
             };
         }[];
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        title: string;
+        content: string;
+        authorId: string;
+    })[]>;
+    getPostById(id: string): Promise<{
+        comments: {
+            id: string;
+            createdAt: Date;
+            content: string;
+            authorId: string;
+            postId: string;
+        }[];
         votes: {
             id: string;
             createdAt: Date;
@@ -97,12 +77,54 @@ export declare class PostController {
             userId: string;
             value: number;
         }[];
+        author: {
+            id: string;
+            email: string;
+            username: string;
+            password: string;
+            bio: string | null;
+            role: import(".prisma/client").$Enums.Role;
+            avatar: string | null;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+        hashtags: {
+            hashtag: {
+                id: string;
+                createdAt: Date;
+                name: string;
+            };
+        }[];
     } & {
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         title: string;
         content: string;
         authorId: string;
+    }>;
+    updatePost(id: string, user: UserEntity, dto: UpdatePostDto): Promise<{
+        hashtags: {
+            hashtag: {
+                id: string;
+                createdAt: Date;
+                name: string;
+            };
+        }[];
+    } & {
+        id: string;
         createdAt: Date;
         updatedAt: Date;
-    })[]>;
+        title: string;
+        content: string;
+        authorId: string;
+    }>;
+    deletePost(id: string, user: UserEntity): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        title: string;
+        content: string;
+        authorId: string;
+    }>;
 }

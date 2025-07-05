@@ -4,17 +4,18 @@ import { UpdatePostDto } from './dto/update-post.dto';
 export declare class PostService {
     private readonly prisma;
     constructor(prisma: PrismaService);
+    private normalizeHashtagName;
     create(authorId: string, dto: CreatePostDto): Promise<{
         hashtags: {
             hashtag: {
+                id: string;
                 createdAt: Date;
                 name: string;
-                id: string;
             };
         }[];
     } & {
-        createdAt: Date;
         id: string;
+        createdAt: Date;
         updatedAt: Date;
         title: string;
         content: string;
@@ -22,21 +23,20 @@ export declare class PostService {
     }>;
     findAll(): Promise<({
         comments: {
-            createdAt: Date;
             id: string;
+            createdAt: Date;
             content: string;
             authorId: string;
             postId: string;
         }[];
         votes: {
-            createdAt: Date;
             id: string;
-            userId: string;
+            createdAt: Date;
             postId: string;
+            userId: string;
             value: number;
         }[];
         author: {
-            createdAt: Date;
             id: string;
             email: string;
             username: string;
@@ -44,40 +44,40 @@ export declare class PostService {
             bio: string | null;
             role: import(".prisma/client").$Enums.Role;
             avatar: string | null;
+            createdAt: Date;
             updatedAt: Date;
         };
         hashtags: {
             hashtag: {
+                id: string;
                 createdAt: Date;
                 name: string;
-                id: string;
             };
         }[];
     } & {
-        createdAt: Date;
         id: string;
+        createdAt: Date;
         updatedAt: Date;
         title: string;
         content: string;
         authorId: string;
     })[]>;
-    findOne(id: string): Promise<{
+    findById(postId: string): Promise<{
         comments: {
-            createdAt: Date;
             id: string;
+            createdAt: Date;
             content: string;
             authorId: string;
             postId: string;
         }[];
         votes: {
-            createdAt: Date;
             id: string;
-            userId: string;
+            createdAt: Date;
             postId: string;
+            userId: string;
             value: number;
         }[];
         author: {
-            createdAt: Date;
             id: string;
             email: string;
             username: string;
@@ -85,62 +85,19 @@ export declare class PostService {
             bio: string | null;
             role: import(".prisma/client").$Enums.Role;
             avatar: string | null;
+            createdAt: Date;
             updatedAt: Date;
         };
         hashtags: {
             hashtag: {
+                id: string;
                 createdAt: Date;
                 name: string;
-                id: string;
             };
         }[];
     } & {
-        createdAt: Date;
         id: string;
-        updatedAt: Date;
-        title: string;
-        content: string;
-        authorId: string;
-    }>;
-    findById(postId: string): Promise<{
-        comments: {
-            createdAt: Date;
-            id: string;
-            content: string;
-            authorId: string;
-            postId: string;
-        }[];
-        votes: {
-            createdAt: Date;
-            id: string;
-            userId: string;
-            postId: string;
-            value: number;
-        }[];
-        author: {
-            createdAt: Date;
-            id: string;
-            email: string;
-            username: string;
-            password: string;
-            bio: string | null;
-            role: import(".prisma/client").$Enums.Role;
-            avatar: string | null;
-            updatedAt: Date;
-        };
-        hashtags: ({
-            hashtag: {
-                createdAt: Date;
-                name: string;
-                id: string;
-            };
-        } & {
-            hashtagId: string;
-            postId: string;
-        })[];
-    } & {
         createdAt: Date;
-        id: string;
         updatedAt: Date;
         title: string;
         content: string;
@@ -149,22 +106,22 @@ export declare class PostService {
     update(id: string, dto: UpdatePostDto): Promise<{
         hashtags: {
             hashtag: {
+                id: string;
                 createdAt: Date;
                 name: string;
-                id: string;
             };
         }[];
     } & {
-        createdAt: Date;
         id: string;
+        createdAt: Date;
         updatedAt: Date;
         title: string;
         content: string;
         authorId: string;
     }>;
     remove(id: string): Promise<{
-        createdAt: Date;
         id: string;
+        createdAt: Date;
         updatedAt: Date;
         title: string;
         content: string;

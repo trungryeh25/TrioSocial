@@ -13,14 +13,15 @@ const comment_controller_1 = require("./comment.controller");
 const prisma_module_1 = require("../../prisma/prisma.module");
 const post_module_1 = require("../post/post.module");
 const user_module_1 = require("../user/user.module");
+const notification_module_1 = require("../notification/notification.module");
 let CommentModule = class CommentModule {
 };
 exports.CommentModule = CommentModule;
 exports.CommentModule = CommentModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, post_module_1.PostModule, user_module_1.UserModule],
+        imports: [prisma_module_1.PrismaModule, post_module_1.PostModule, user_module_1.UserModule, notification_module_1.NotificationModule],
         providers: [comment_service_1.CommentService],
-        controllers: [comment_controller_1.CommentController]
+        controllers: [comment_controller_1.CommentController],
     })
 ], CommentModule);
 //# sourceMappingURL=comment.module.js.map

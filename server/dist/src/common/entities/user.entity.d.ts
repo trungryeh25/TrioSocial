@@ -5,5 +5,6 @@ export declare class UserEntity {
     password: string;
     createdAt: Date;
     updatedAt: Date;
+    role: string;
     constructor(partial: Partial<UserEntity>);
 }

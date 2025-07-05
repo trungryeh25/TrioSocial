@@ -1,74 +1,68 @@
-import { PrismaService } from '@prisma/prisma.service';
-import { CreateCommentDto } from './dto/create-comment.dto';
-import { UpdateCommentDto } from './dto/update-comment.dto';
+import { PrismaService } from "@prisma/prisma.service";
+import { CreateCommentDto } from "./dto/create-comment.dto";
+import { UpdateCommentDto } from "./dto/update-comment.dto";
+import { NotificationService } from "@modules/notification/notification.service";
 export declare class CommentService {
     private readonly prisma;
-    constructor(prisma: PrismaService);
-    create(userId: string, postId: string, dto: CreateCommentDto): Promise<{
-        createdAt: Date;
+    private readonly notificationService;
+    constructor(prisma: PrismaService, notificationService: NotificationService);
+    create(userId: string, dto: CreateCommentDto): Promise<{
         id: string;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
+        createdAt: Date;
     }>;
-    findAllByPost(postId: string): Promise<({
-        author: {
-            createdAt: Date;
+    findAll(): Promise<({
+        post: {
             id: string;
-            email: string;
+            title: string;
+        };
+        author: {
+            id: string;
             username: string;
-            password: string;
-            bio: string | null;
-            role: import(".prisma/client").$Enums.Role;
             avatar: string | null;
-            updatedAt: Date;
         };
     } & {
-        createdAt: Date;
         id: string;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
+        createdAt: Date;
     })[]>;
     findOne(id: string): Promise<{
         post: {
-            createdAt: Date;
             id: string;
-            updatedAt: Date;
-            title: string;
             content: string;
             authorId: string;
+            createdAt: Date;
+            updatedAt: Date;
+            title: string;
         };
         author: {
-            createdAt: Date;
             id: string;
-            email: string;
             username: string;
-            password: string;
-            bio: string | null;
-            role: import(".prisma/client").$Enums.Role;
             avatar: string | null;
-            updatedAt: Date;
         };
     } & {
-        createdAt: Date;
         id: string;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
+        createdAt: Date;
     }>;
-    update(id: string, dto: UpdateCommentDto): Promise<{
-        createdAt: Date;
+    update(userId: string, id: string, dto: UpdateCommentDto): Promise<{
         id: string;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
+        createdAt: Date;
     }>;
-    remove(id: string): Promise<{
-        createdAt: Date;
+    remove(userId: string, id: string): Promise<{
         id: string;
         content: string;
-        authorId: string;
         postId: string;
+        authorId: string;
+        createdAt: Date;
     }>;
 }

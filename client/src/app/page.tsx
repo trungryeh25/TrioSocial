@@ -1,57 +1,76 @@
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import PostCard from "@/components/post/PostCard";
-import Navbar from "@/components/layout/Navbar";
-import { Post } from "../../types/post";
+"use client";
 
-const demoPosts: Post[] = [
-  {
-    id: "1",
-    title: "How to learn TypeScript effectively",
-    content:
-      "TypeScript is a powerful superset of JavaScript that adds static typing...",
-    createdAt: new Date().toISOString(),
-    author: {
-      id: "u1",
-      username: "trgn312",
-      email: "trgn312@gmail.com",
-      bio: "TS Lover",
-      role: "USER",
-      createdAt: new Date().toISOString(),
-    },
-    comments: [],
-  },
-  {
-    id: "2",
-    title: "Building a Next.js app from scratch",
-    content:
-      "In this post, I'll show you how to set up a Next.js project step by step...",
-    createdAt: new Date().toISOString(),
-    author: {
-      id: "u2",
-      username: "truongpor",
-      email: "tpor.admin@gmail.com",
-      bio: "Fullstack  dev",
-      role: "ADMIN",
-      createdAt: new Date().toISOString(),
-    },
-    comments: [],
-  },
-];
+import { useEffect, useState } from "react";
+import { api } from "@/lib/api";
+import PostCard from "@/components/post/PostCard";
+import { Post } from "@/types/post";
+import { User } from "@/types/user";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
+  const [user, setUser] = useState<User | null>(null);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setIsLoggedIn(false);
+      setIsLoading(false);
+      return;
+    }
+
+    api
+      .get("/auth/me")
+      .then((res) => {
+        setUser(res.data);
+        setIsLoggedIn(true);
+
+        if (res.data.role === "ADMIN") {
+          api
+            .get("/posts")
+            .then((res) => setPosts(res.data))
+            .catch(() => setPosts([]))
+            .finally(() => setIsLoading(false));
+        } else {
+          api
+            .get(`/posts/user/${res.data.id}`)
+            .then((res) => setPosts(res.data))
+            .catch(() => setPosts([]))
+            .finally(() => setIsLoading(false));
+        }
+      })
+      .catch(() => {
+        setUser(null);
+        setIsLoggedIn(false);
+        setIsLoading(false);
+      });
+  }, []);
+
   return (
     <>
-      <Navbar />
-      <Header />
-
-      <main className="container mx-auto px-4 py-8 space-y-6">
-        {demoPosts.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))}
+      <main className="container mx-auto px-4 py-8">
+        {!isLoggedIn ? (
+          <div className="text-center py-20">
+            <h1 className="text-3xl font-bold mb-4">Trios Community</h1>
+            <p className="mt-4 text-gray-600">
+              Join and share your thoughts with the community!
+            </p>
+          </div>
+        ) : isLoading ? (
+          <p>Loading posts...</p>
+        ) : posts.length === 0 ? (
+          <p>No posts found.</p>
+        ) : (
+          <div className="space-y-4">
+            {posts.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </div>
+        )}
       </main>
-
-      <Footer />
     </>
   );
 }

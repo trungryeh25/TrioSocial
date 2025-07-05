@@ -12,7 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     configService: ConfigService,
     private readonly userService: UserService
   ) {
-    const jwtSecret = configService.get<string>("JWT_SECRET")!;
+    const jwtSecret = configService.get<string>("JWT_SECRET");
     if (!jwtSecret) {
       throw new Error("JWT_SECRET is not defined in environment");
     }
@@ -31,6 +31,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         "Invalid token or user no longer exists."
       );
     }
-    return new UserEntity(user);
+
+    return new UserEntity({
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+    });
   }
 }

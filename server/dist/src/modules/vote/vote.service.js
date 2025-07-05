@@ -12,46 +12,77 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VoteService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../prisma/prisma.service");
+const notification_service_1 = require("../notification/notification.service");
 let VoteService = class VoteService {
-    constructor(prisma) {
+    constructor(prisma, notificationService) {
         this.prisma = prisma;
+        this.notificationService = notificationService;
     }
-    async vote(postId, userId, value) {
+    async vote(userId, dto) {
+        const post = await this.prisma.post.findUnique({
+            where: { id: dto.postId },
+            include: {
+                author: true,
+            },
+        });
+        if (!post)
+            throw new common_1.NotFoundException("Post not found");
         const existingVote = await this.prisma.vote.findUnique({
             where: {
-                postId_userId: { postId, userId },
+                postId_userId: {
+                    postId: dto.postId,
+                    userId: userId,
+                },
             },
         });
         if (existingVote) {
-            return this.prisma.vote.update({
+            const updatedVote = await this.prisma.vote.update({
                 where: {
-                    postId_userId: { postId, userId },
+                    postId_userId: {
+                        postId: dto.postId,
+                        userId: userId,
+                    },
                 },
+                data: { value: dto.value },
+            });
+            return updatedVote;
+        }
+        else {
+            const newVote = await this.prisma.vote.create({
                 data: {
-                    value,
+                    postId: dto.postId,
+                    userId: userId,
+                    value: dto.value,
                 },
             });
+            if (userId !== post.author.id) {
+                await this.notificationService.create({
+                    type: "vote",
+                    message: `Your post "${post.title}" got a new vote!`,
+                    recipientId: post.author.id,
+                    userId: userId,
+                });
+            }
+            return newVote;
         }
-        return this.prisma.vote.create({
-            data: {
-                postId,
-                userId,
-                value,
-            },
-        });
     }
-    async removeVote(postId, userId) {
+    async removeVote(userId, postId) {
         const vote = await this.prisma.vote.findUnique({
             where: {
-                postId_userId: { postId, userId },
+                postId_userId: {
+                    postId,
+                    userId,
+                },
             },
         });
-        if (!vote) {
+        if (!vote)
             throw new common_1.NotFoundException("Vote not found");
-        }
         return this.prisma.vote.delete({
             where: {
-                postId_userId: { postId, userId },
+                postId_userId: {
+                    postId,
+                    userId,
+                },
             },
         });
     }
@@ -59,6 +90,7 @@ let VoteService = class VoteService {
 exports.VoteService = VoteService;
 exports.VoteService = VoteService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        notification_service_1.NotificationService])
 ], VoteService);
 //# sourceMappingURL=vote.service.js.map

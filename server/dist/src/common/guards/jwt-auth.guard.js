@@ -12,7 +12,7 @@ const passport_1 = require("@nestjs/passport");
 let JwtAuthGuard = class JwtAuthGuard extends (0, passport_1.AuthGuard)("jwt") {
     handleRequest(err, user, info, context, status) {
         if (err || !user) {
-            throw new common_1.UnauthorizedException("Login to entry.");
+            throw new common_1.UnauthorizedException("Please login to access this resource.");
         }
         return user;
     }

@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_module_1 = require("../../prisma/prisma.module");
+const prisma_service_1 = require("../../prisma/prisma.service");
 const user_entity_1 = require("../../common/entities/user.entity");
 const bcrypt = require("bcrypt");
 let UserService = class UserService {
@@ -19,7 +19,10 @@ let UserService = class UserService {
         this.prisma = prisma;
     }
     async create(data) {
-        const user = await this.prisma.user.create({ data });
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+        const user = await this.prisma.user.create({
+            data: Object.assign(Object.assign({}, data), { password: hashedPassword }),
+        });
         return new user_entity_1.UserEntity(user);
     }
     async findAll() {
@@ -58,6 +61,6 @@ let UserService = class UserService {
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_module_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

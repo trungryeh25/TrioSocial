@@ -1,6 +1,7 @@
-import { AuthService } from './auth.service';
-import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
+import { AuthService } from "./auth.service";
+import { RegisterDto } from "./dto/register.dto";
+import { LoginDto } from "./dto/login.dto";
+import { Request } from "express";
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
@@ -17,6 +18,7 @@ export declare class AuthController {
         };
         accessToken: string;
     }>;
+    getProfile(req: Request): Promise<Express.User | undefined>;
     login(dto: LoginDto): Promise<{
         user: {
             id: string;

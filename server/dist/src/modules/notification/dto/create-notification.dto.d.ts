@@ -3,5 +3,6 @@ export declare class CreateNotificationDto {
     message: string;
     recipientId: string;
     postId?: string;
+    actionId?: string;
     userId: string;
 }

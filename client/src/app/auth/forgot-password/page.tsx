@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { api } from "../../../../lib/api";
+import { api } from "../../../lib/api";
 
 type ForgotPasswordForm = {
   email: string;

@@ -19,7 +19,8 @@ exports.NotificationModule = NotificationModule = __decorate([
     (0, common_1.Module)({
         imports: [prisma_module_1.PrismaModule],
         providers: [notification_service_1.NotificationService, notification_gateway_1.NotificationGateway],
-        controllers: [notification_controller_1.NotificationController]
+        controllers: [notification_controller_1.NotificationController],
+        exports: [notification_service_1.NotificationService],
     })
 ], NotificationModule);
 //# sourceMappingURL=notification.module.js.map

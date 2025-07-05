@@ -3,7 +3,6 @@ export declare enum VoteType {
     DOWNVOTE = "DOWNVOTE"
 }
 export declare class CreateVoteDto {
-    userId: string;
     postId: string;
-    type: VoteType;
+    value: number;
 }

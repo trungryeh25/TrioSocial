@@ -1,4 +1,4 @@
-import { Comment } from "@common/entities/comment.entity";
+import { CommentEntity } from "@common/entities/comment.entity";
 import { UserEntity } from "@common/entities/user.entity";
 import { Hashtag } from "@common/entities/hashtag.entity";
 export declare class Post {
@@ -9,6 +9,6 @@ export declare class Post {
     createdAt: Date;
     updatedAt: Date;
     author?: UserEntity;
-    comments?: Comment[];
+    comments?: CommentEntity[];
     hashtags?: Hashtag[];
 }

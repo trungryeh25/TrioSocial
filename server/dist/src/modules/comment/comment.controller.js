@@ -18,60 +18,72 @@ const comment_service_1 = require("./comment.service");
 const create_comment_dto_1 = require("./dto/create-comment.dto");
 const update_comment_dto_1 = require("./dto/update-comment.dto");
 const jwt_auth_guard_1 = require("../../common/guards/jwt-auth.guard");
-const current_user_decorator_1 = require("../../common/decorators/current-user.decorator");
-const user_entity_1 = require("../../common/entities/user.entity");
 let CommentController = class CommentController {
     constructor(commentService) {
         this.commentService = commentService;
     }
-    create(postId, user, dto) {
-        return this.commentService.create(user.id, postId, dto);
+    create(req, dto) {
+        const user = req.user;
+        return this.commentService.create(user.id, dto);
     }
-    findAllByPost(postId) {
-        return this.commentService.findAllByPost(postId);
+    findAll() {
+        return this.commentService.findAll();
     }
-    update(id, dto) {
-        return this.commentService.update(id, dto);
+    findOne(id) {
+        return this.commentService.findOne(id);
     }
-    remove(id) {
-        return this.commentService.remove(id);
+    update(req, id, dto) {
+        const user = req.user;
+        return this.commentService.update(user.id, id, dto);
+    }
+    remove(req, id) {
+        const user = req.user;
+        return this.commentService.remove(user.id, id);
     }
 };
 exports.CommentController = CommentController;
 __decorate([
-    (0, common_1.Post)(":postId"),
-    __param(0, (0, common_1.Param)("postId")),
-    __param(1, (0, current_user_decorator_1.CurrentUser)()),
-    __param(2, (0, common_1.Body)()),
+    (0, common_1.Post)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, user_entity_1.UserEntity,
-        create_comment_dto_1.CreateCommentDto]),
+    __metadata("design:paramtypes", [Object, create_comment_dto_1.CreateCommentDto]),
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)("post/:postId"),
-    __param(0, (0, common_1.Param)("postId")),
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], CommentController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], CommentController.prototype, "findAllByPost", null);
+], CommentController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(":id"),
-    __param(0, (0, common_1.Param)("id")),
-    __param(1, (0, common_1.Body)()),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)("id")),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_comment_dto_1.UpdateCommentDto]),
+    __metadata("design:paramtypes", [Object, String, update_comment_dto_1.UpdateCommentDto]),
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(":id"),
-    __param(0, (0, common_1.Param)("id")),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "remove", null);
 exports.CommentController = CommentController = __decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Controller)("comments"),
     __metadata("design:paramtypes", [comment_service_1.CommentService])
 ], CommentController);

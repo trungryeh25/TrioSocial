@@ -31,7 +31,6 @@ export class CommentService {
       },
     });
 
-    // Nếu author của post khác người comment thì gửi notification
     if (post.author.id !== userId) {
       await this.notificationService.create({
         type: "comment",

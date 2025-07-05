@@ -20,15 +20,12 @@ class CreateVoteDto {
 }
 exports.CreateVoteDto = CreateVoteDto;
 __decorate([
-    (0, class_validator_1.IsUUID)(),
-    __metadata("design:type", String)
-], CreateVoteDto.prototype, "userId", void 0);
-__decorate([
-    (0, class_validator_1.IsUUID)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateVoteDto.prototype, "postId", void 0);
 __decorate([
-    (0, class_validator_1.IsEnum)(VoteType),
-    __metadata("design:type", String)
-], CreateVoteDto.prototype, "type", void 0);
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.IsIn)([1, -1]),
+    __metadata("design:type", Number)
+], CreateVoteDto.prototype, "value", void 0);
 //# sourceMappingURL=create-vote.dto.js.map

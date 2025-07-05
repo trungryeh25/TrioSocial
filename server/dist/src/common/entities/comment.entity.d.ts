@@ -1,8 +1,8 @@
-export declare class Comment {
+export interface CommentEntity {
     id: string;
     content: string;
     postId: string;
-    userId: string;
+    authorId: string;
     createdAt: Date;
     updatedAt: Date;
 }

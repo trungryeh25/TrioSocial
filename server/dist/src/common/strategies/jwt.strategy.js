@@ -34,7 +34,12 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
         if (!user) {
             throw new common_1.UnauthorizedException("Invalid token or user no longer exists.");
         }
-        return new user_entity_1.UserEntity(user);
+        return new user_entity_1.UserEntity({
+            id: user.id,
+            email: user.email,
+            username: user.username,
+            role: user.role,
+        });
     }
 };
 exports.JwtStrategy = JwtStrategy;

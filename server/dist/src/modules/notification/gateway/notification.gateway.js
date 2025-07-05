@@ -33,7 +33,7 @@ let NotificationGateway = class NotificationGateway {
     sendNotification(userId, notification) {
         for (const [socketId, uid] of this.connectedUsers.entries()) {
             if (uid === userId) {
-                this.server.to(socketId).emit('notification', notification);
+                this.server.to(socketId).emit("notification", notification);
             }
         }
     }
@@ -44,7 +44,7 @@ __decorate([
     __metadata("design:type", socket_io_1.Server)
 ], NotificationGateway.prototype, "server", void 0);
 __decorate([
-    (0, websockets_1.SubscribeMessage)('register'),
+    (0, websockets_1.SubscribeMessage)("register"),
     __param(0, (0, websockets_1.MessageBody)()),
     __param(1, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
@@ -53,9 +53,7 @@ __decorate([
 ], NotificationGateway.prototype, "handleRegister", null);
 exports.NotificationGateway = NotificationGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
-        cors: {
-            origin: '*',
-        },
+        cors: { origin: "*" },
     })
 ], NotificationGateway);
 //# sourceMappingURL=notification.gateway.js.map

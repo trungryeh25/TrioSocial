@@ -27,7 +27,6 @@ const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
 const constants_1 = require("../../../config/constants");
 const config_1 = require("@nestjs/config");
-const common_2 = require("@nestjs/common");
 let AuthService = class AuthService {
     constructor(prisma, jwtService, configService) {
         this.prisma = prisma;
@@ -44,11 +43,11 @@ let AuthService = class AuthService {
         if (dto.role === "ADMIN") {
             const expectedKey = this.configService.get("SECRET_ADMIN_KEY");
             if (dto.adminKey !== expectedKey) {
-                throw new common_2.ForbiddenException("Not allowed to register as ADMIN");
+                throw new common_1.ForbiddenException("Not allowed to register as ADMIN");
             }
         }
         const hashedPassword = await bcrypt.hash(dto.password, constants_1.BCRYPT_SALT_ROUNDS);
-        const role = dto.adminKey === process.env.ADMIN_KEY ? "ADMIN" : "USER";
+        const role = dto.role === "ADMIN" ? "ADMIN" : "USER";
         const user = await this.prisma.user.create({
             data: {
                 email: dto.email,
@@ -61,6 +60,7 @@ let AuthService = class AuthService {
         const accessToken = this.jwtService.sign({
             sub: user.id,
             email: user.email,
+            role: user.role,
         });
         return {
             user: safeUser,
@@ -74,7 +74,7 @@ let AuthService = class AuthService {
         if (!user) {
             throw new common_1.UnauthorizedException("Invalid credentials");
         }
-        const isPasswordValid = await bcrypt.compare(dto.password, user === null || user === void 0 ? void 0 : user.password);
+        const isPasswordValid = await bcrypt.compare(dto.password, user.password);
         if (!isPasswordValid) {
             throw new common_1.UnauthorizedException("Invalid credentials");
         }
@@ -82,6 +82,7 @@ let AuthService = class AuthService {
         const accessToken = this.jwtService.sign({
             sub: user.id,
             email: user.email,
+            role: user.role,
         });
         return {
             user: safeUser,

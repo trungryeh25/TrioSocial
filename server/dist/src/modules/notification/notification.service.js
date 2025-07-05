@@ -23,34 +23,29 @@ let NotificationService = class NotificationService {
             data: {
                 type: dto.type,
                 message: dto.message,
-                user: {
-                    connect: { id: dto.userId },
-                },
-                recipient: {
-                    connect: { id: dto.recipientId },
-                },
+                user: { connect: { id: dto.actionId } },
+                recipient: { connect: { id: dto.recipientId } },
             },
         });
         this.gateway.sendNotification(dto.recipientId, notification);
         return notification;
     }
-    async findAllByUser(userId) {
+    async findAllByUser(actionId) {
         return this.prisma.notification.findMany({
-            where: { recipientId: userId },
-            orderBy: { createdAt: 'desc' },
+            where: { recipientId: actionId },
+            orderBy: { createdAt: "desc" },
         });
     }
     async markAsRead(id) {
-        const noti = await this.prisma.notification.update({
+        return this.prisma.notification.update({
             where: { id },
             data: { isRead: true },
         });
-        return noti;
     }
     async remove(id) {
         const noti = await this.prisma.notification.findUnique({ where: { id } });
         if (!noti)
-            throw new common_1.NotFoundException('Notification not found');
+            throw new common_1.NotFoundException("Notification not found");
         return this.prisma.notification.delete({ where: { id } });
     }
 };

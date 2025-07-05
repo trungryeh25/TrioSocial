@@ -16,6 +16,9 @@ let PostService = class PostService {
     constructor(prisma) {
         this.prisma = prisma;
     }
+    normalizeHashtagName(name) {
+        return name.trim().toLowerCase();
+    }
     async create(authorId, dto) {
         var _a;
         return this.prisma.post.create({
@@ -27,10 +30,10 @@ let PostService = class PostService {
                     create: ((_a = dto.hashtags) === null || _a === void 0 ? void 0 : _a.map((name) => ({
                         hashtag: {
                             connectOrCreate: {
-                                where: { name },
-                                create: { name },
-                            }
-                        }
+                                where: { name: this.normalizeHashtagName(name) },
+                                create: { name: this.normalizeHashtagName(name) },
+                            },
+                        },
                     }))) || [],
                 },
             },
@@ -50,26 +53,12 @@ let PostService = class PostService {
             orderBy: { createdAt: 'desc' },
         });
     }
-    async findOne(id) {
-        const post = await this.prisma.post.findUnique({
-            where: { id },
-            include: {
-                author: true,
-                hashtags: { select: { hashtag: true } },
-                comments: true,
-                votes: true,
-            },
-        });
-        if (!post)
-            throw new common_1.NotFoundException('Post not found');
-        return post;
-    }
     async findById(postId) {
         const post = await this.prisma.post.findUnique({
             where: { id: postId },
             include: {
                 author: true,
-                hashtags: { include: { hashtag: true } },
+                hashtags: { select: { hashtag: true } },
                 comments: true,
                 votes: true,
             },
@@ -80,8 +69,8 @@ let PostService = class PostService {
         return post;
     }
     async update(id, dto) {
-        await this.findOne(id);
-        const updatedPost = await this.prisma.post.update({
+        await this.findById(id);
+        return this.prisma.post.update({
             where: { id },
             data: {
                 title: dto.title,
@@ -93,8 +82,8 @@ let PostService = class PostService {
                         create: dto.hashtags.map((name) => ({
                             hashtag: {
                                 connectOrCreate: {
-                                    where: { name: name.trim().toLowerCase() },
-                                    create: { name: name.trim().toLowerCase() },
+                                    where: { name: this.normalizeHashtagName(name) },
+                                    create: { name: this.normalizeHashtagName(name) },
                                 },
                             },
                         })),
@@ -105,7 +94,6 @@ let PostService = class PostService {
                 hashtags: { select: { hashtag: true } },
             },
         });
-        return updatedPost;
     }
     async remove(id) {
         await this.findById(id);

@@ -11,13 +11,15 @@ const common_1 = require("@nestjs/common");
 const vote_service_1 = require("./vote.service");
 const vote_controller_1 = require("./vote.controller");
 const prisma_service_1 = require("../../prisma/prisma.service");
+const notification_module_1 = require("../notification/notification.module");
 let VoteModule = class VoteModule {
 };
 exports.VoteModule = VoteModule;
 exports.VoteModule = VoteModule = __decorate([
     (0, common_1.Module)({
+        imports: [notification_module_1.NotificationModule],
+        controllers: [vote_controller_1.VoteController],
         providers: [vote_service_1.VoteService, prisma_service_1.PrismaService],
-        controllers: [vote_controller_1.VoteController]
     })
 ], VoteModule);
 //# sourceMappingURL=vote.module.js.map

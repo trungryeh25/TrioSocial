@@ -1,15 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Post } from "../../../types/post";
+import { Post } from "../../types/post";
 
 interface Props {
   post: Post;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
-export default function PostCard({ post }: Props) {
+export default function PostCard({ post, onEdit, onDelete }: Props) {
   return (
-    <div className="border rounded-xl p-4 shadow-sm hover:shadow-md transition">
+    <div className="border rounded-xl p-4 shadow-sm hover:shadow-md transition relative">
       <Link href={`/post/${post.id}`}>
         <h2 className="text-xl font-bold hover:underline">{post.title}</h2>
       </Link>
@@ -21,13 +23,26 @@ export default function PostCard({ post }: Props) {
           : post.content}
       </p>
 
-      {/* Optional footer section (votes, comments, hashtags) */}
-      {/* 
-      <div className="text-xs text-gray-500 mt-2">
-        ❤️ {post.votes?.length || 0} · 💬 {post.comments?.length || 0} · #
-        {post.hashtags?.join(", ")}
-      </div>
-      */}
+      {(onEdit || onDelete) && (
+        <div className="flex gap-2 mt-4">
+          {onEdit && (
+            <button
+              onClick={onEdit}
+              className="text-blue-600 hover:underline text-sm"
+            >
+              Edit
+            </button>
+          )}
+          {onDelete && (
+            <button
+              onClick={onDelete}
+              className="text-red-600 hover:underline text-sm"
+            >
+              Delete
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

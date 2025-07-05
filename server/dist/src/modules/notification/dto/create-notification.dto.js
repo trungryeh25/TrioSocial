@@ -35,5 +35,9 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
+], CreateNotificationDto.prototype, "actionId", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
 ], CreateNotificationDto.prototype, "userId", void 0);
 //# sourceMappingURL=create-notification.dto.js.map

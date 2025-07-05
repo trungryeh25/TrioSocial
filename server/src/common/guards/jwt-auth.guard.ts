@@ -15,7 +15,7 @@ export class JwtAuthGuard extends AuthGuard("jwt") {
     status?: any
   ) {
     if (err || !user) {
-      throw new UnauthorizedException("Login to entry.");
+      throw new UnauthorizedException("Please login to access this resource.");
     }
     return user;
   }

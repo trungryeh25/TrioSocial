@@ -1,38 +1,66 @@
-// src/app/dashboard/page.tsx
+"use client";
 
-import Navbar from "@/components/layout/Navbar";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
+import { useEffect, useState } from "react";
+import { api } from "@/lib/api";
+import { Post } from "@/types/post";
+import PostCard from "@/components/post/PostCard";
+import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import UserCard from "@/components/user/UserCard";
-import UserActionButtons from "@/components/user/UserActionButtons";
-import { User } from "../../../types/user";
-
-const demoUser: User = {
-  id: "u1",
-  username: "alice",
-  email: "alice@example.com",
-  bio: "Full-stack developer and coffee lover ☕",
-};
+import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
+  const { user, isChecking } = useAuthGuard("ADMIN");
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) return;
+
+    api
+      .get("/posts")
+      .then((res) => setPosts(res.data))
+      .catch(() => setPosts([]))
+      .finally(() => setIsLoading(false));
+  }, [user]);
+
+  if (isChecking || !user) {
+    return null; // Hoặc có thể render spinner
+  }
+
   return (
     <>
-      <Navbar />
+      <main className="container mx-auto px-4 py-8 space-y-6">
+        <h1 className="text-2xl font-bold">Admin Dashboard - Manage Posts</h1>
 
-      <main className="container mx-auto px-4 py-8 mt-16">
-        <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <UserCard user={demoUser} />
-          <div className="flex items-center justify-center">
-            <UserActionButtons
-              onEdit={() => alert("Edit user")}
-              onDelete={() => alert("Delete user")}
+        {isLoading ? (
+          <p>Loading posts...</p>
+        ) : posts.length === 0 ? (
+          <p>No posts found.</p>
+        ) : (
+          posts.map((post) => (
+            <PostCard
+              key={post.id}
+              post={post}
+              onEdit={() => router.push(`/dashboard/posts/edit/${post.id}`)}
+              onDelete={() => handleDelete(post.id)}
             />
-          </div>
-        </div>
+          ))
+        )}
       </main>
-
-      <Footer />
     </>
   );
+
+  function handleDelete(postId: string) {
+    if (confirm("Are you sure you want to delete this post?")) {
+      api
+        .delete(`/posts/${postId}`)
+        .then(() => {
+          setPosts((prev) => prev.filter((p) => p.id !== postId));
+          alert("Deleted successfully!");
+        })
+        .catch(() => alert("Failed to delete."));
+    }
+  }
 }

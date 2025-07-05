@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { api } from "../../../../lib/api";
+import { api } from "../../../lib/api";
 import { useRouter } from "next/navigation";
 
 type LoginForm = {
@@ -22,11 +22,22 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginForm) => {
     try {
-      await api.post("/auth/login", {
+      // Call login
+      const res = await api.post("/auth/login", {
         email: data.email,
         password: data.password,
       });
-      router.push("/dashboard");
+
+      // Save token
+      const token = res.data.accessToken;
+      localStorage.setItem("token", token);
+
+      // Check role to redirect
+      if (res.data.user.role === "ADMIN") {
+        router.push("/dashboard");
+      } else {
+        router.push("/profile");
+      }
     } catch (err: any) {
       setServerError(err.response?.data?.message || "Login failed");
     }

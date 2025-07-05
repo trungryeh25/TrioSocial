@@ -12,39 +12,72 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommentService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../prisma/prisma.service");
+const notification_service_1 = require("../notification/notification.service");
 let CommentService = class CommentService {
-    constructor(prisma) {
+    constructor(prisma, notificationService) {
         this.prisma = prisma;
+        this.notificationService = notificationService;
     }
-    async create(userId, postId, dto) {
-        return this.prisma.comment.create({
+    async create(userId, dto) {
+        const post = await this.prisma.post.findUnique({
+            where: { id: dto.postId },
+            include: { author: true },
+        });
+        if (!post)
+            throw new common_1.NotFoundException("Post not found");
+        const comment = await this.prisma.comment.create({
             data: {
                 content: dto.content,
-                postId,
+                postId: dto.postId,
                 authorId: userId,
             },
         });
+        if (post.author.id !== userId) {
+            await this.notificationService.create({
+                type: "comment",
+                message: `Your post "${post.title}" has a new comment!`,
+                recipientId: post.author.id,
+                userId,
+                actionId: comment.id,
+            });
+        }
+        return comment;
     }
-    async findAllByPost(postId) {
+    async findAll() {
         return this.prisma.comment.findMany({
-            where: { postId },
-            include: { author: true },
-            orderBy: { createdAt: 'asc' },
+            include: {
+                author: {
+                    select: { id: true, username: true, avatar: true },
+                },
+                post: {
+                    select: { id: true, title: true },
+                },
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
         });
     }
     async findOne(id) {
         const comment = await this.prisma.comment.findUnique({
             where: { id },
-            include: { author: true, post: true },
+            include: {
+                author: {
+                    select: { id: true, username: true, avatar: true },
+                },
+                post: true,
+            },
         });
         if (!comment)
-            throw new common_1.NotFoundException('Comment not found');
+            throw new common_1.NotFoundException("Comment not found");
         return comment;
     }
-    async update(id, dto) {
-        const existing = await this.prisma.comment.findUnique({ where: { id } });
-        if (!existing)
-            throw new common_1.NotFoundException('Comment not found');
+    async update(userId, id, dto) {
+        const comment = await this.prisma.comment.findUnique({ where: { id } });
+        if (!comment)
+            throw new common_1.NotFoundException("Comment not found");
+        if (comment.authorId !== userId)
+            throw new common_1.ForbiddenException("You can only edit your own comment");
         return this.prisma.comment.update({
             where: { id },
             data: {
@@ -52,16 +85,19 @@ let CommentService = class CommentService {
             },
         });
     }
-    async remove(id) {
+    async remove(userId, id) {
         const comment = await this.prisma.comment.findUnique({ where: { id } });
         if (!comment)
-            throw new common_1.NotFoundException('Comment not found');
+            throw new common_1.NotFoundException("Comment not found");
+        if (comment.authorId !== userId)
+            throw new common_1.ForbiddenException("You can only delete your own comment");
         return this.prisma.comment.delete({ where: { id } });
     }
 };
 exports.CommentService = CommentService;
 exports.CommentService = CommentService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        notification_service_1.NotificationService])
 ], CommentService);
 //# sourceMappingURL=comment.service.js.map

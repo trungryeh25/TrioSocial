@@ -1,10 +1,3 @@
-// import { IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
-
-// export enum VoteType {
-//   UPVOTE = 'UPVOTE',
-//   DOWNVOTE = 'DOWNVOTE',
-// }
-
 // export class CreateVoteDto {
 //   @IsUUID()
 //   userId!: string;
@@ -15,7 +8,12 @@
 //   @IsEnum(VoteType)
 //   type!: VoteType;
 // }
-import { IsInt, IsIn, IsNotEmpty } from "class-validator";
+import { IsInt, IsIn, IsNotEmpty, IsEnum, IsUUID } from "class-validator";
+
+export enum VoteType {
+  UPVOTE = 'UPVOTE',
+  DOWNVOTE = 'DOWNVOTE',
+}
 
 export class CreateVoteDto {
   @IsNotEmpty()

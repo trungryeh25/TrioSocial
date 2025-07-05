@@ -5,54 +5,54 @@ export declare class FriendController {
     constructor(friendService: FriendService);
     sendRequest(userId: string, dto: CreateFriendDto): Promise<{
         id: string;
+        createdAt: Date;
         userId: string;
         friendId: string;
         status: import(".prisma/client").$Enums.FriendStatus;
-        createdAt: Date;
     }>;
     acceptRequest(userId: string, friendId: string): Promise<{
         id: string;
+        createdAt: Date;
         userId: string;
         friendId: string;
         status: import(".prisma/client").$Enums.FriendStatus;
-        createdAt: Date;
     }>;
     removeFriend(userId: string, friendId: string): Promise<void>;
     getFriends(id: string): Promise<{
         id: string;
-        createdAt: Date;
         email: string;
         username: string;
         password: string;
         bio: string | null;
         role: import(".prisma/client").$Enums.Role;
         avatar: string | null;
+        createdAt: Date;
         updatedAt: Date;
     }[]>;
     getPending(userId: string): Promise<({
         user: {
             id: string;
-            createdAt: Date;
             email: string;
             username: string;
             password: string;
             bio: string | null;
             role: import(".prisma/client").$Enums.Role;
             avatar: string | null;
+            createdAt: Date;
             updatedAt: Date;
         };
     } & {
         id: string;
+        createdAt: Date;
         userId: string;
         friendId: string;
         status: import(".prisma/client").$Enums.FriendStatus;
-        createdAt: Date;
     })[]>;
     cancelRequest(userId: string, friendId: string): Promise<{
         id: string;
+        createdAt: Date;
         userId: string;
         friendId: string;
         status: import(".prisma/client").$Enums.FriendStatus;
-        createdAt: Date;
     }>;
 }
