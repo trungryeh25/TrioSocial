@@ -1,41 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { User } from "../../types/user";
-import { api } from "../../lib/api";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Header() {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      setIsLoggedIn(false);
-      setUser(null);
-      return;
-    }
-
-    api
-      .get("/auth/me")
-      .then((res) => {
-        setUser(res.data);
-        setIsLoggedIn(true);
-      })
-      .catch(() => {
-        setUser(null);
-        setIsLoggedIn(false);
-      });
-  }, []);
+  const { user, isLoggedIn, logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    setUser(null);
+    logout();
     router.push("/auth/login");
   };
 
@@ -58,18 +32,11 @@ export default function Header() {
           {isLoggedIn && user ? (
             <>
               <span className="text-sm">Hi, {user.username}</span>
-              <img
-                src={user.avatar || "/default-avatar.png"}
-                alt="avatar"
-                className="w-8 h-8 rounded-full object-cover"
-              />
-
               {user.role === "ADMIN" && (
                 <Link href="/dashboard" className="hover:underline text-sm">
                   Dashboard
                 </Link>
               )}
-
               <button
                 onClick={handleLogout}
                 className="text-red-600 hover:underline text-sm"

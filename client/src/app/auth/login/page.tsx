@@ -2,8 +2,9 @@
 
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { api } from "../../../lib/api";
+import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 type LoginForm = {
   email: string;
@@ -19,20 +20,16 @@ export default function LoginPage() {
 
   const [serverError, setServerError] = useState("");
   const router = useRouter();
+  const { refreshUser } = useAuth();
 
   const onSubmit = async (data: LoginForm) => {
     try {
-      // Call login
-      const res = await api.post("/auth/login", {
-        email: data.email,
-        password: data.password,
-      });
-
-      // Save token
+      const res = await api.post("/auth/login", data);
       const token = res.data.accessToken;
       localStorage.setItem("token", token);
 
-      // Check role to redirect
+      refreshUser();
+
       if (res.data.user.role === "ADMIN") {
         router.push("/dashboard");
       } else {
@@ -47,9 +44,7 @@ export default function LoginPage() {
     <main className="max-w-md mx-auto mt-20 p-4 border rounded-lg shadow">
       <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
 
-      {serverError && (
-        <p className="text-red-600 text-sm mb-2">{serverError}</p>
-      )}
+      {serverError && <p className="text-red-600 text-sm mb-2">{serverError}</p>}
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
         <input
@@ -88,10 +83,7 @@ export default function LoginPage() {
 
       <p className="text-sm text-center mt-4">
         Forgot your password?{" "}
-        <a
-          href="/auth/forgot-password"
-          className="text-primary hover:underline"
-        >
+        <a href="/auth/forgot-password" className="text-primary hover:underline">
           Reset
         </a>
       </p>
