@@ -7,6 +7,12 @@ export declare class CommentService {
     private readonly notificationService;
     constructor(prisma: PrismaService, notificationService: NotificationService);
     create(userId: string, dto: CreateCommentDto): Promise<{
+        author: {
+            id: string;
+            username: string;
+            avatar: string | null;
+        };
+    } & {
         id: string;
         content: string;
         postId: string;
@@ -18,6 +24,19 @@ export declare class CommentService {
             id: string;
             title: string;
         };
+        author: {
+            id: string;
+            username: string;
+            avatar: string | null;
+        };
+    } & {
+        id: string;
+        content: string;
+        postId: string;
+        authorId: string;
+        createdAt: Date;
+    })[]>;
+    findByPostId(postId: string): Promise<({
         author: {
             id: string;
             username: string;

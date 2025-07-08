@@ -17,7 +17,7 @@ export class CommentService {
 
   async create(userId: string, dto: CreateCommentDto) {
     const post = await this.prisma.post.findUnique({
-      where: { id: dto.postId! },
+      where: { id: dto.postId },
       include: { author: true },
     });
 
@@ -28,6 +28,11 @@ export class CommentService {
         content: dto.content!,
         postId: dto.postId!,
         authorId: userId,
+      },
+      include: {
+        author: {
+          select: { id: true, username: true, avatar: true },
+        },
       },
     });
 
@@ -60,6 +65,18 @@ export class CommentService {
     });
   }
 
+  async findByPostId(postId: string) {
+    return this.prisma.comment.findMany({
+      where: { postId },
+      include: {
+        author: {
+          select: { id: true, username: true, avatar: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  }
+
   async findOne(id: string) {
     const comment = await this.prisma.comment.findUnique({
       where: { id },
@@ -83,7 +100,7 @@ export class CommentService {
     return this.prisma.comment.update({
       where: { id },
       data: {
-        content: dto.content!,
+        content: dto.content,
       },
     });
   }

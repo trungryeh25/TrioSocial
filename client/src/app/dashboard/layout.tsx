@@ -11,7 +11,7 @@ export default function DashboardLayout({
       <aside className="w-64 bg-gray-800 text-white p-4 space-y-4">
         <h2 className="text-xl font-bold mb-4">Admin Panel</h2>
         <nav className="flex flex-col gap-2">
-          <Link href="/dashboard" className="hover:underline">
+          <Link href="/" className="hover:underline">
             Home
           </Link>
           <Link href="/dashboard/users" className="hover:underline">

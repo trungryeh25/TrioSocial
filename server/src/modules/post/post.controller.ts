@@ -34,6 +34,12 @@ export class PostController {
     return this.postService.findAll();
   }
 
+  @Get("new-feed")
+  @UseGuards(JwtAuthGuard)
+  async getNewFeed(@CurrentUser() user: UserEntity) {
+    return this.postService.getNewFeed(user.id);
+  }
+
   @Get(":id")
   async getPostById(@Param("id") id: string) {
     return this.postService.findById(id);

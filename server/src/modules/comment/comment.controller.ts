@@ -19,11 +19,12 @@ import { Request } from "express";
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  @Post()
   @UseGuards(JwtAuthGuard)
+  @Post()
   create(@Req() req: Request, @Body() dto: CreateCommentDto) {
     const user = req.user as any;
-    return this.commentService.create(user.id, dto);
+    const userId = user.sub || user.id; // fallback
+    return this.commentService.create(userId, dto);
   }
 
   @Get()
@@ -31,26 +32,33 @@ export class CommentController {
     return this.commentService.findAll();
   }
 
+  @Get("/post/:postId")
+  findByPost(@Param("postId") postId: string) {
+    return this.commentService.findByPostId(postId);
+  }
+
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.commentService.findOne(id);
   }
 
-  @Patch(":id")
   @UseGuards(JwtAuthGuard)
+  @Patch(":id")
   update(
     @Req() req: Request,
     @Param("id") id: string,
     @Body() dto: UpdateCommentDto
   ) {
     const user = req.user as any;
-    return this.commentService.update(user.id, id, dto);
+    const userId = user.sub || user.id;
+    return this.commentService.update(userId, id, dto);
   }
 
-  @Delete(":id")
   @UseGuards(JwtAuthGuard)
+  @Delete(":id")
   remove(@Req() req: Request, @Param("id") id: string) {
     const user = req.user as any;
-    return this.commentService.remove(user.id, id);
+    const userId = user.sub || user.id;
+    return this.commentService.remove(userId, id);
   }
 }

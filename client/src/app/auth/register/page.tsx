@@ -47,7 +47,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="max-w-md mx-auto mt-20 p-4 border rounded-lg shadow">
+    <main className="max-w-md mx-auto mt-20 p-4 border rounded-lg shadow bg-[#dfdfdf] text-white">
       <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
 
       {serverError && (
@@ -59,7 +59,7 @@ export default function RegisterPage() {
           type="text"
           placeholder="Username"
           {...register("username", { required: "Username is required" })}
-          className="border p-2 rounded"
+          className="border p-2 rounded bg-white text-gray-400"
         />
         {errors.username && (
           <p className="text-red-500 text-sm">{errors.username.message}</p>
@@ -75,7 +75,7 @@ export default function RegisterPage() {
               message: "Invalid email",
             },
           })}
-          className="border p-2 rounded"
+          className="border p-2 rounded bg-white text-gray-400"
         />
         {errors.email && (
           <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -88,7 +88,7 @@ export default function RegisterPage() {
             required: "Password is required",
             minLength: { value: 8, message: "At least 8 characters" },
           })}
-          className="border p-2 rounded"
+          className="border p-2 rounded bg-white text-gray-400"
         />
         {errors.password && (
           <p className="text-red-500 text-sm">{errors.password.message}</p>
@@ -100,7 +100,7 @@ export default function RegisterPage() {
           {...register("confirmPassword", {
             required: "Please confirm your password",
           })}
-          className="border p-2 rounded"
+          className="border p-2 rounded bg-white text-gray-400"
         />
         {errors.confirmPassword && (
           <p className="text-red-500 text-sm">
@@ -108,7 +108,10 @@ export default function RegisterPage() {
           </p>
         )}
 
-        <select {...register("role")} className="border p-2 rounded">
+        <select
+          {...register("role")}
+          className="border p-2 rounded bg-white text-gray-400"
+        >
           <option value="USER">User</option>
           {process.env.NODE_ENV === "development" && (
             <option value="ADMIN">Admin (internal only)</option>
@@ -121,17 +124,19 @@ export default function RegisterPage() {
               type="password"
               placeholder="Admin secret key"
               {...register("adminKey", { required: "Admin key is required" })}
-              className="border p-2 rounded"
+              className="border p-2 rounded bg-white text-gray-400"
             />
             {errors.adminKey && (
-              <p className="text-red-500 text-sm">{errors.adminKey.message}</p>
+              <p className="text-red-500 text-sm bg-white text-gray-400">
+                {errors.adminKey.message}
+              </p>
             )}
           </>
         )}
 
         <button
           type="submit"
-          className="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-stone-700 text-white px-4 py-2 rounded hover:bg-stone-500"
         >
           Register
         </button>

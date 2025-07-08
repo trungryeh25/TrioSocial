@@ -24,27 +24,33 @@ let CommentController = class CommentController {
     }
     create(req, dto) {
         const user = req.user;
-        return this.commentService.create(user.id, dto);
+        const userId = user.sub || user.id;
+        return this.commentService.create(userId, dto);
     }
     findAll() {
         return this.commentService.findAll();
+    }
+    findByPost(postId) {
+        return this.commentService.findByPostId(postId);
     }
     findOne(id) {
         return this.commentService.findOne(id);
     }
     update(req, id, dto) {
         const user = req.user;
-        return this.commentService.update(user.id, id, dto);
+        const userId = user.sub || user.id;
+        return this.commentService.update(userId, id, dto);
     }
     remove(req, id) {
         const user = req.user;
-        return this.commentService.remove(user.id, id);
+        const userId = user.sub || user.id;
+        return this.commentService.remove(userId, id);
     }
 };
 exports.CommentController = CommentController;
 __decorate([
-    (0, common_1.Post)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Post)(),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -58,6 +64,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "findAll", null);
 __decorate([
+    (0, common_1.Get)("/post/:postId"),
+    __param(0, (0, common_1.Param)("postId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CommentController.prototype, "findByPost", null);
+__decorate([
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -65,8 +78,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(":id"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Patch)(":id"),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __param(2, (0, common_1.Body)()),
@@ -75,8 +88,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CommentController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(":id"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __metadata("design:type", Function),

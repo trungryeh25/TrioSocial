@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { api } from "../../../../../lib/api";
-import { decodeJWT } from "../../../../../lib/jwt";
-import { User } from "../../../../../types/user";
-import { Post } from "../../../../../types/post";
+import { api } from "../../../../lib/api";
+import { decodeJWT } from "../../../../lib/jwt";
+import { User } from "../../../../types/user";
+import { Post } from "../../../../types/post";
 import UserAvatar from "@/components/user/UserAvatar";
 import UserInfoCard from "@/components/user/UserInfoCard";
 import UserPosts from "@/components/user/UserPosts";
@@ -57,7 +57,8 @@ export default function UserProfilePage() {
       </div>
 
       <div className="flex gap-4 flex-wrap lg:flex-nowrap">
-        <UserInfoCard user={user} isOwnProfile={false} />
+        {/* <UserInfoCard user={user} isOwnProfile={false} /> */}
+        <UserInfoCard user={user} />
         <UserPosts posts={posts} />
         <UserFriends friends={friends} />
       </div>

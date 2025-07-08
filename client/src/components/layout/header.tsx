@@ -33,8 +33,16 @@ export default function Header() {
             <>
               <span className="text-sm">Hi, {user.username}</span>
               {user.role === "ADMIN" && (
-                <Link href="/dashboard" className="hover:underline text-sm">
+                <Link
+                  href="/dashboard/posts"
+                  className="hover:underline text-sm"
+                >
                   Dashboard
+                </Link>
+              )}
+              {user.role === "USER" && (
+                <Link href="/" className="hover:underline text-sm">
+                  New feed
                 </Link>
               )}
               <button

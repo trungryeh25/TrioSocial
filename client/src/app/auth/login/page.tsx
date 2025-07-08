@@ -41,10 +41,12 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="max-w-md mx-auto mt-20 p-4 border rounded-lg shadow">
+    <main className="max-w-md mx-auto mt-20 p-4 border rounded-lg shadow bg-[#dfdfdf] text-white">
       <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
 
-      {serverError && <p className="text-red-600 text-sm mb-2">{serverError}</p>}
+      {serverError && (
+        <p className="text-red-600 text-sm mb-2">{serverError}</p>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
         <input
@@ -57,7 +59,7 @@ export default function LoginPage() {
               message: "Invalid email",
             },
           })}
-          className="border p-2 rounded"
+          className="border p-2 rounded bg-white text-gray-400"
         />
         {errors.email && (
           <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -67,7 +69,7 @@ export default function LoginPage() {
           type="password"
           placeholder="Password"
           {...register("password", { required: "Password is required" })}
-          className="border p-2 rounded"
+          className="border p-2 rounded bg-white text-gray-400"
         />
         {errors.password && (
           <p className="text-red-500 text-sm">{errors.password.message}</p>
@@ -75,7 +77,7 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-500"
         >
           Login
         </button>
@@ -83,7 +85,10 @@ export default function LoginPage() {
 
       <p className="text-sm text-center mt-4">
         Forgot your password?{" "}
-        <a href="/auth/forgot-password" className="text-primary hover:underline">
+        <a
+          href="/auth/forgot-password"
+          className="text-primary hover:underline"
+        >
           Reset
         </a>
       </p>

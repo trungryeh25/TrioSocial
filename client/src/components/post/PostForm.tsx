@@ -28,7 +28,7 @@ export default function PostForm({
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
-      <Button type="submit">Submit</Button>
+      <Button type="submit">Post</Button>
     </form>
   );
 }

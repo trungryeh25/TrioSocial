@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../prisma/prisma.service");
+const client_1 = require("@prisma/client");
 let PostService = class PostService {
     constructor(prisma) {
         this.prisma = prisma;
@@ -50,7 +51,7 @@ let PostService = class PostService {
                 votes: true,
                 comments: true,
             },
-            orderBy: { createdAt: 'desc' },
+            orderBy: { createdAt: "desc" },
         });
     }
     async findById(postId) {
@@ -64,7 +65,7 @@ let PostService = class PostService {
             },
         });
         if (!post) {
-            throw new common_1.NotFoundException('Post not found');
+            throw new common_1.NotFoundException("Post not found");
         }
         return post;
     }
@@ -98,6 +99,31 @@ let PostService = class PostService {
     async remove(id) {
         await this.findById(id);
         return this.prisma.post.delete({ where: { id } });
+    }
+    async getNewFeed(userId) {
+        const relations = await this.prisma.friend.findMany({
+            where: {
+                OR: [
+                    { userId, status: client_1.FriendStatus.accepted },
+                    { friendId: userId, status: client_1.FriendStatus.accepted },
+                ],
+            },
+            select: { userId: true, friendId: true },
+        });
+        const friendIds = relations.map((r) => r.userId === userId ? r.friendId : r.userId);
+        friendIds.push(userId);
+        return this.prisma.post.findMany({
+            where: {
+                authorId: { in: friendIds },
+            },
+            include: {
+                author: true,
+                hashtags: { select: { hashtag: true } },
+                votes: true,
+                comments: true,
+            },
+            orderBy: { createdAt: "desc" },
+        });
     }
 };
 exports.PostService = PostService;

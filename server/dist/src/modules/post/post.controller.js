@@ -30,6 +30,9 @@ let PostController = class PostController {
     async getAllPosts() {
         return this.postService.findAll();
     }
+    async getNewFeed(user) {
+        return this.postService.getNewFeed(user.id);
+    }
     async getPostById(id) {
         return this.postService.findById(id);
     }
@@ -65,6 +68,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "getAllPosts", null);
+__decorate([
+    (0, common_1.Get)("new-feed"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_entity_1.UserEntity]),
+    __metadata("design:returntype", Promise)
+], PostController.prototype, "getNewFeed", null);
 __decorate([
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),

@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import { User } from "@/types/user";
 import { Post } from "@/types/post";
 import PostCard from "@/components/post/PostCard";

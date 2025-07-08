@@ -1,4 +1,4 @@
-import { Post } from "../../../types/post";
+import { Post } from "../../types/post";
 
 export default function UserPosts({ posts }: { posts: Post[] }) {
   return (

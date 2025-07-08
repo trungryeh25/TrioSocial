@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { api } from "../../../lib/api";
-import { Comment } from "../../../types/comment";
+import { api } from "../../lib/api";
+import { Comment } from "../../types/comment";
 import toast from "react-hot-toast";
 import CommentActions from "@/components/comment/CommentActions";
 import ConfirmModal from "@/components/common/ConfirmModal";

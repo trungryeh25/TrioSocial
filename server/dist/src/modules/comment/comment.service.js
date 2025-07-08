@@ -31,6 +31,11 @@ let CommentService = class CommentService {
                 postId: dto.postId,
                 authorId: userId,
             },
+            include: {
+                author: {
+                    select: { id: true, username: true, avatar: true },
+                },
+            },
         });
         if (post.author.id !== userId) {
             await this.notificationService.create({
@@ -56,6 +61,17 @@ let CommentService = class CommentService {
             orderBy: {
                 createdAt: "desc",
             },
+        });
+    }
+    async findByPostId(postId) {
+        return this.prisma.comment.findMany({
+            where: { postId },
+            include: {
+                author: {
+                    select: { id: true, username: true, avatar: true },
+                },
+            },
+            orderBy: { createdAt: "desc" },
         });
     }
     async findOne(id) {

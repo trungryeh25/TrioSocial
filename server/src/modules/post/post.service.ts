@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '@prisma/prisma.service';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { PrismaService } from "@prisma/prisma.service";
+import { CreatePostDto } from "./dto/create-post.dto";
+import { UpdatePostDto } from "./dto/update-post.dto";
+import { FriendStatus } from "@prisma/client";
 
 @Injectable()
 export class PostService {
@@ -18,14 +19,15 @@ export class PostService {
         content: dto.content,
         authorId,
         hashtags: {
-          create: dto.hashtags?.map((name) => ({
-            hashtag: {
-              connectOrCreate: {
-                where: { name: this.normalizeHashtagName(name) },
-                create: { name: this.normalizeHashtagName(name) },
+          create:
+            dto.hashtags?.map((name) => ({
+              hashtag: {
+                connectOrCreate: {
+                  where: { name: this.normalizeHashtagName(name) },
+                  create: { name: this.normalizeHashtagName(name) },
+                },
               },
-            },
-          })) || [],
+            })) || [],
         },
       },
       include: {
@@ -42,7 +44,7 @@ export class PostService {
         votes: true,
         comments: true,
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
   }
 
@@ -58,7 +60,7 @@ export class PostService {
     });
 
     if (!post) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException("Post not found");
     }
 
     return post;
@@ -96,5 +98,35 @@ export class PostService {
   async remove(id: string) {
     await this.findById(id);
     return this.prisma.post.delete({ where: { id } });
+  }
+
+  async getNewFeed(userId: string) {
+    const relations = await this.prisma.friend.findMany({
+      where: {
+        OR: [
+          { userId, status: FriendStatus.accepted },
+          { friendId: userId, status: FriendStatus.accepted },
+        ],
+      },
+      select: { userId: true, friendId: true },
+    });
+
+    const friendIds = relations.map((r) =>
+      r.userId === userId ? r.friendId : r.userId
+    );
+    friendIds.push(userId);
+
+    return this.prisma.post.findMany({
+      where: {
+        authorId: { in: friendIds },
+      },
+      include: {
+        author: true,
+        hashtags: { select: { hashtag: true } },
+        votes: true,
+        comments: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
   }
 }

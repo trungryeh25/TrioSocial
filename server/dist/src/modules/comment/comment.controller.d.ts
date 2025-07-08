@@ -6,6 +6,12 @@ export declare class CommentController {
     private readonly commentService;
     constructor(commentService: CommentService);
     create(req: Request, dto: CreateCommentDto): Promise<{
+        author: {
+            id: string;
+            username: string;
+            avatar: string | null;
+        };
+    } & {
         id: string;
         content: string;
         postId: string;
@@ -17,6 +23,19 @@ export declare class CommentController {
             id: string;
             title: string;
         };
+        author: {
+            id: string;
+            username: string;
+            avatar: string | null;
+        };
+    } & {
+        id: string;
+        content: string;
+        postId: string;
+        authorId: string;
+        createdAt: Date;
+    })[]>;
+    findByPost(postId: string): Promise<({
         author: {
             id: string;
             username: string;

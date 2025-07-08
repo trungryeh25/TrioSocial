@@ -44,24 +44,26 @@ export default function AdminUserPage() {
         <tbody>
           {users.map((user, index) => (
             <tr key={user.id}>
-              <td className="p-2 border">{index + 1}</td>
-              <td className="p-2 border">{user.email}</td>
+              <td className="p-2 border text-center">{index + 1}</td>
+              <td className="p-2 border text-center">{user.email}</td>
               <td
-                className="p-2 border text-blue-600 hover:underline cursor-pointer"
+                className="p-2 border text-blue-600 hover:underline cursor-pointer text-center"
                 onClick={() => router.push(`/user/profile/${user.id}`)}
               >
                 {user.username}
               </td>
-              <td className="p-2 border">{user.role}</td>
-              <td className="p-2 border space-x-2">
+              <td className="p-2 border text-center">{user.role}</td>
+              <td className="p-2 border space-x-2 text-center">
                 <Button
                   variant="outline"
+                  className="bg-[#004C99] font-roboto font-bold text-white hover:bg-[#0080FF]"
                   onClick={() => router.push(`/dashboard/users/${user.id}`)}
                 >
                   Edit
                 </Button>
                 <Button
                   variant="destructive"
+                  className="bg-[#BA1B1B] font-roboto font-bold text-white hover:bg-[#DA5151]"
                   onClick={() => handleDelete(user.id)}
                 >
                   Delete

@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "../../../types/user";
+import { User } from "../../types/user";
 import { useRouter } from "next/navigation";
 
 export default function UserFriends({ friends }: { friends: User[] }) {
