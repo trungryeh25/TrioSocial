@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import { Notification } from "@/types/notification";
+import { Notification } from "../src/types/notification";
 
 export function useNotification(userId: string) {
   const [notifications, setNotifications] = useState<Notification[]>([]);

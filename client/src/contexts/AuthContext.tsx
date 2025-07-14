@@ -1,51 +1,45 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { api } from "@/lib/api";
-import { User } from "@/types/user";
+import { api } from "../lib/api";
+import { User } from "../types/user";
 
 interface AuthContextType {
   user: User | null;
   isLoggedIn: boolean;
-  refreshUser: () => void;
+  refreshUser: () => Promise<void>;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   isLoggedIn: false,
-  refreshUser: () => {},
+  refreshUser: async () => {},
   logout: () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const refreshUser = () => {
+  const isLoggedIn = !!user;
+
+  const refreshUser = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       setUser(null);
-      setIsLoggedIn(false);
       return;
     }
-
-    api
-      .get("/auth/me")
-      .then((res) => {
-        setUser(res.data);
-        setIsLoggedIn(true);
-      })
-      .catch(() => {
-        setUser(null);
-        setIsLoggedIn(false);
-      });
+    try {
+      const res = await api.get("/auth/me");
+      setUser(res.data);
+    } catch {
+      setUser(null);
+    }
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
-    setIsLoggedIn(false);
   };
 
   useEffect(() => {

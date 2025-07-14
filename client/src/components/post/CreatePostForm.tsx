@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { api } from "@/lib/api";
+import { api } from "../../lib/api";
 import toast from "react-hot-toast";
-import { User } from "@/types/user";
+import { User } from "../../types/user";
 
 interface CreatePostFormProps {
   user: User;

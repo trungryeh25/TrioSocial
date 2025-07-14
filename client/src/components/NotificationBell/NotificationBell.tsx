@@ -1,8 +1,8 @@
 "use client";
 
-import { useNotification } from "@/hooks/useNotification";
+import { useNotification } from "../../hooks/useNotification";
 import { useEffect, useState } from "react";
-import { Notification } from "@/types/notification";
+import { Notification } from "../../types/notification";
 
 interface Props {
   userId: string;
@@ -38,7 +38,9 @@ export default function NotificationBell({ userId }: Props) {
       {showList && (
         <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg overflow-hidden z-50">
           {notifications.length === 0 ? (
-            <div className="p-4 text-center text-gray-500">No notifications</div>
+            <div className="p-4 text-center text-gray-500">
+              No notifications
+            </div>
           ) : (
             notifications.map((notif) => (
               <div

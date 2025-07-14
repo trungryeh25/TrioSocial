@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { api } from "@/lib/api";
-import { User } from "@/types/user";
+import { api } from "../src/lib/api";
+import { User } from "../src/types/user";
 
 export function useAuthGuard(requiredRole?: "ADMIN" | "USER") {
   const [user, setUser] = useState<User | null>(null);

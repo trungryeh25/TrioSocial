@@ -4,8 +4,8 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Post } from "../../types/post";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { api } from "@/lib/api";
-import { decodeJWT } from "@/lib/jwt";
+import { api } from "../../lib/api";
+import { decodeJWT } from "../../lib/jwt";
 
 export default function ManagePostsPage() {
   const [posts, setPosts] = useState<Post[]>([]);

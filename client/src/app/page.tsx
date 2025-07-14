@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { api } from "@/lib/api";
+import { api } from "../lib/api";
 import PostCard from "@/components/post/PostCard";
 import CreatePostForm from "@/components/post/CreatePostForm";
-import { Post } from "@/types/post";
-import { User } from "@/types/user";
+import { Post } from "../types/post";
+import { User } from "../types/user";
 import toast from "react-hot-toast";
 
 export default function HomePage() {

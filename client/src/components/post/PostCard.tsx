@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Post } from "@/types/post";
-import { User } from "@/types/user";
+import { Post } from "../../types/post";
+import { User } from "../../types/user";
 
 interface Props {
   post: Post;

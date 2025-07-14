@@ -1,9 +1,9 @@
 "use client";
 
-import { useAuthGuard } from "@/hooks/useAuthGuard";
+import { useAuthGuard } from "../../hooks/useAuthGuard";
 import { useEffect, useState } from "react";
-import { api } from "@/lib/api";
-import { Post } from "@/types/post";
+import { api } from "../../lib/api";
+import { Post } from "../../types/post";
 import PostCard from "@/components/post/PostCard";
 import { useRouter } from "next/navigation";
 

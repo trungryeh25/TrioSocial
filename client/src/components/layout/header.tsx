@@ -31,7 +31,7 @@ export default function Header() {
         <nav className="flex items-center space-x-4">
           {isLoggedIn && user ? (
             <>
-              <span className="text-sm">Hi, {user.username}</span>
+              <span className="text-sm"><Link href="/profile">Hi, {user.username} </Link></span>
               {user.role === "ADMIN" && (
                 <Link
                   href="/dashboard/posts"
