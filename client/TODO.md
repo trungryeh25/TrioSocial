@@ -40,12 +40,12 @@ Sắp xếp để tránh conflict logic, dễ triển khai từng feature.
 
 ## ✅ 4️⃣ CRUD Bài viết (Posts)
 
-- [ ] Trang list posts (`/posts`)
-- [ ] Trang detail bài viết (`/posts/[id]`)
-- [ ] Trang edit bài viết (`/posts/[id]/edit`)
-- [ ] Trang quản lý posts cá nhân (`/posts/manage`)
-- [ ] Component Editor (nội dung bài viết)
-- [ ] Upload ảnh (optional)
+- [✅] Trang list posts (`/posts`)
+- [✅] Trang detail bài viết (`/posts/[id]`)
+- [✅] Trang edit bài viết (`/posts/[id]/edit`)
+- [✅] Trang quản lý posts cá nhân (`/posts/manage`)
+- [✅] Component Editor (nội dung bài viết)
+- [✅] Upload ảnh (optional)
 
 ---
 

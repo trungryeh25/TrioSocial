@@ -20,6 +20,7 @@ const notification_module_1 = require("./modules/notification/notification.modul
 const admin_module_1 = require("./modules/admin/admin.module");
 const friend_module_1 = require("./modules/friend/friend.module");
 const follow_module_1 = require("./modules/follow/follow.module");
+const upload_module_1 = require("./modules/upload/upload.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -40,6 +41,7 @@ exports.AppModule = AppModule = __decorate([
             admin_module_1.AdminModule,
             friend_module_1.FriendModule,
             follow_module_1.FollowModule,
+            upload_module_1.UploadModule,
         ],
     })
 ], AppModule);

@@ -7,16 +7,16 @@ export declare class VoteService {
     constructor(prisma: PrismaService, notificationService: NotificationService);
     vote(userId: string, dto: CreateVoteDto): Promise<{
         id: string;
-        userId: string;
-        postId: string;
-        value: number;
         createdAt: Date;
+        postId: string;
+        userId: string;
+        value: number;
     }>;
     removeVote(userId: string, postId: string): Promise<{
         id: string;
-        userId: string;
-        postId: string;
-        value: number;
         createdAt: Date;
+        postId: string;
+        userId: string;
+        value: number;
     }>;
 }

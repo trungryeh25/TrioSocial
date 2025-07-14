@@ -16,12 +16,12 @@ export default function PostForm({
         onSubmit({ title, content });
       }}
     >
-      <input
+      {/* <input
         className="border p-2 w-full mb-2"
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-      />
+      /> */}
       <textarea
         className="border p-2 w-full mb-2"
         placeholder="Content"

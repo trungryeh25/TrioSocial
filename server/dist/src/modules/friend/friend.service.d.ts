@@ -4,22 +4,21 @@ export declare class FriendService {
     private prisma;
     constructor(prisma: PrismaService);
     sendRequest(userId: string, dto: CreateFriendDto): Promise<{
-        createdAt: Date;
         id: string;
+        createdAt: Date;
         userId: string;
         friendId: string;
         status: import(".prisma/client").$Enums.FriendStatus;
     }>;
     acceptRequest(userId: string, friendId: string): Promise<{
-        createdAt: Date;
         id: string;
+        createdAt: Date;
         userId: string;
         friendId: string;
         status: import(".prisma/client").$Enums.FriendStatus;
     }>;
     removeFriend(userId: string, friendId: string): Promise<void>;
     getFriends(userId: string): Promise<{
-        createdAt: Date;
         id: string;
         email: string;
         username: string;
@@ -27,10 +26,10 @@ export declare class FriendService {
         bio: string | null;
         role: import(".prisma/client").$Enums.Role;
         avatar: string | null;
+        createdAt: Date;
         updatedAt: Date;
     }[]>;
     getFriendsOfUser(userId: string): Promise<{
-        createdAt: Date;
         id: string;
         email: string;
         username: string;
@@ -38,11 +37,11 @@ export declare class FriendService {
         bio: string | null;
         role: import(".prisma/client").$Enums.Role;
         avatar: string | null;
+        createdAt: Date;
         updatedAt: Date;
     }[]>;
     getPendingRequests(userId: string): Promise<({
         user: {
-            createdAt: Date;
             id: string;
             email: string;
             username: string;
@@ -50,18 +49,19 @@ export declare class FriendService {
             bio: string | null;
             role: import(".prisma/client").$Enums.Role;
             avatar: string | null;
+            createdAt: Date;
             updatedAt: Date;
         };
     } & {
-        createdAt: Date;
         id: string;
+        createdAt: Date;
         userId: string;
         friendId: string;
         status: import(".prisma/client").$Enums.FriendStatus;
     })[]>;
     cancelRequest(userId: string, friendId: string): Promise<{
-        createdAt: Date;
         id: string;
+        createdAt: Date;
         userId: string;
         friendId: string;
         status: import(".prisma/client").$Enums.FriendStatus;

@@ -3,7 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { AuthPayload } from "@common/interfaces/auth-payload.interface";
 import { UserService } from "@modules/user/user.service";
 import { UserEntity } from "@common/entities/user.entity";
-declare const JwtStrategy_base: new (...args: [opt: import("passport-jwt").StrategyOptionsWithoutRequest] | [opt: import("passport-jwt").StrategyOptionsWithRequest]) => Strategy & {
+declare const JwtStrategy_base: new (...args: [opt: import("passport-jwt").StrategyOptionsWithRequest] | [opt: import("passport-jwt").StrategyOptionsWithoutRequest]) => Strategy & {
     validate(...args: any[]): unknown;
 };
 export declare class JwtStrategy extends JwtStrategy_base {

@@ -14,10 +14,10 @@ export declare class CommentService {
         };
     } & {
         id: string;
-        content: string;
-        postId: string;
-        authorId: string;
         createdAt: Date;
+        content: string;
+        authorId: string;
+        postId: string;
     }>;
     findAll(): Promise<({
         post: {
@@ -31,10 +31,10 @@ export declare class CommentService {
         };
     } & {
         id: string;
-        content: string;
-        postId: string;
-        authorId: string;
         createdAt: Date;
+        content: string;
+        authorId: string;
+        postId: string;
     })[]>;
     findByPostId(postId: string): Promise<({
         author: {
@@ -44,19 +44,19 @@ export declare class CommentService {
         };
     } & {
         id: string;
-        content: string;
-        postId: string;
-        authorId: string;
         createdAt: Date;
+        content: string;
+        authorId: string;
+        postId: string;
     })[]>;
     findOne(id: string): Promise<{
         post: {
             id: string;
-            content: string;
-            authorId: string;
             createdAt: Date;
             updatedAt: Date;
             title: string;
+            content: string;
+            authorId: string;
         };
         author: {
             id: string;
@@ -65,23 +65,23 @@ export declare class CommentService {
         };
     } & {
         id: string;
-        content: string;
-        postId: string;
-        authorId: string;
         createdAt: Date;
+        content: string;
+        authorId: string;
+        postId: string;
     }>;
     update(userId: string, id: string, dto: UpdateCommentDto): Promise<{
         id: string;
-        content: string;
-        postId: string;
-        authorId: string;
         createdAt: Date;
+        content: string;
+        authorId: string;
+        postId: string;
     }>;
     remove(userId: string, id: string): Promise<{
         id: string;
-        content: string;
-        postId: string;
-        authorId: string;
         createdAt: Date;
+        content: string;
+        authorId: string;
+        postId: string;
     }>;
 }

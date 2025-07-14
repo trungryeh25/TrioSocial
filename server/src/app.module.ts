@@ -11,6 +11,7 @@ import { NotificationModule } from "@notification/notification.module";
 import { AdminModule } from "@modules/admin/admin.module";
 import { FriendModule } from "@modules/friend/friend.module";
 import { FollowModule } from "@modules/follow/follow.module";
+import { UploadModule } from "@modules/upload/upload.module";
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { FollowModule } from "@modules/follow/follow.module";
     AdminModule,
     FriendModule,
     FollowModule,
+    UploadModule,
   ],
 })
 export class AppModule {}

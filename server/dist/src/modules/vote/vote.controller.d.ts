@@ -6,16 +6,16 @@ export declare class VoteController {
     constructor(voteService: VoteService);
     vote(dto: CreateVoteDto, user: AuthPayload): Promise<{
         id: string;
-        userId: string;
-        postId: string;
-        value: number;
         createdAt: Date;
+        postId: string;
+        userId: string;
+        value: number;
     }>;
     removeVote(postId: string, user: AuthPayload): Promise<{
         id: string;
-        userId: string;
-        postId: string;
-        value: number;
         createdAt: Date;
+        postId: string;
+        userId: string;
+        value: number;
     }>;
 }

@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { api } from "../../lib/api";
+import { api } from "@/lib/api";
 import toast from "react-hot-toast";
-import { User } from "../../types/user";
+import { User } from "@/types/user";
+import UploadImage from "./UploadImage";
 
 interface CreatePostFormProps {
   user: User;
@@ -16,9 +17,10 @@ export default function CreatePostForm({
 }: CreatePostFormProps) {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleSubmitAction = async () => {
     if (!content.trim() || !title.trim()) {
       toast.error("Title and content cannot be empty");
       return;
@@ -30,12 +32,13 @@ export default function CreatePostForm({
     try {
       await api.post(
         "/posts",
-        { title, content },
+        { title, content, image: imageUrl },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast.success("Post created successfully!");
       setContent("");
       setTitle("");
+      setImageUrl(null);
       onPostCreatedAction && onPostCreatedAction();
     } catch (error) {
       toast.error("Failed to create post");
@@ -45,17 +48,19 @@ export default function CreatePostForm({
   };
 
   return (
-    <div className="border rounded p-4 shadow-sm bg-white">
+    <div className="border rounded p-4 shadow-sm bg-white animate-fadeIn">
       <p className="mb-2 text-gray-600">
         What's on your mind, {user.username}?
       </p>
-      {/* <input
+
+      <input
         type="text"
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         className="w-full border px-3 py-2 mb-2 rounded"
-      /> */}
+      />
+
       <textarea
         placeholder="Write something..."
         value={content}
@@ -63,8 +68,11 @@ export default function CreatePostForm({
         className="w-full border px-3 py-2 mb-2 rounded resize-none"
         rows={3}
       />
+
+      <UploadImage onUploaded={(url) => setImageUrl(url)} />
+
       <button
-        onClick={handleSubmit}
+        onClick={handleSubmitAction}
         disabled={loading}
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
       >
