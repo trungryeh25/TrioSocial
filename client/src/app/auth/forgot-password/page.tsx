@@ -16,6 +16,7 @@ export default function ForgotPasswordPage() {
   } = useForm<ForgotPasswordForm>();
 
   const [serverMessage, setServerMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: ForgotPasswordForm) => {
     try {
@@ -27,6 +28,8 @@ export default function ForgotPasswordPage() {
       setServerMessage(
         err.response?.data?.message || "Failed to send reset email"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,9 +62,12 @@ export default function ForgotPasswordPage() {
 
         <button
           type="submit"
-          className="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700"
+          disabled={loading}
+          className={`bg-primary text-white px-4 py-2 rounded ${
+            loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+          }`}
         >
-          Send Reset Email
+          {loading ? "Sending..." : "Send Reset Email"}
         </button>
       </form>
     </main>

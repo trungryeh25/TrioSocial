@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardLayout from "@/components/layout/DashboardLayout";
+import DashboardLayout from "@/components/layout/DashboardSidebar";
 import { Post } from "../../types/post";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";

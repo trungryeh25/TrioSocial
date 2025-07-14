@@ -9,32 +9,32 @@ Sắp xếp để tránh conflict logic, dễ triển khai từng feature.
 
 ## ✅ 1️⃣ Authentication & Auth Context
 
-- [x] Setup context quản lý user (`AuthContext`)
-- [ ] Kết nối `/auth/me` để check token
-- [ ] Tích hợp refresh token hoặc logic revalidate (nếu cần)
-- [ ] Xử lý redirect khi chưa đăng nhập
-- [ ] UI cơ bản: Login, Register, Forgot Password
+- [✅] Setup context quản lý user (`AuthContext`)
+- [✅] Kết nối `/auth/me` để check token
+- [Pass] Tích hợp refresh token hoặc logic revalidate (nếu cần) X
+- [✅] Xử lý redirect khi chưa đăng nhập
+- [✅] UI cơ bản: Login, Register, Forgot Password
 
 ---
 
 ## ✅ 2️⃣ Global Layout & Theme
 
-- [ ] Thiết kế khung layout global (`app/layout.tsx`)
-- [ ] Navbar: hiển thị user info, avatar, logout
-- [ ] Sidebar (nếu có, ví dụ cho dashboard)
-- [ ] Footer
-- [ ] Setup global style (`globals.css` hoặc Tailwind)
+- [✅] Thiết kế khung layout global (`app/layout.tsx`)
+- [✅] Navbar: hiển thị user info, avatar, logout
+- [✅] Sidebar (nếu có, ví dụ cho dashboard)
+- [✅] Footer
+- [✅] Setup global style (`globals.css` hoặc Tailwind)
 
 ---
 
 ## ✅ 3️⃣ Dashboard (Admin)
 
-- [ ] Trang `/dashboard`
-- [ ] Trang quản lý posts (`/dashboard/posts/manage`)
-- [ ] Trang quản lý users (`/dashboard/users/manage`)
-- [ ] Trang quản lý comments (`/dashboard/comments/manage`)
-- [ ] Trang quản lý notifications (`/dashboard/notifications/manage`)
-- [ ] Middleware hoặc server action check role admin
+- [✅] Trang `/dashboard`
+- [✅] Trang quản lý posts (`/dashboard/posts/manage`)
+- [✅] Trang quản lý users (`/dashboard/users/manage`)
+- [✅] Trang quản lý comments (`/dashboard/comments/manage`)
+- [✅] Trang quản lý notifications (`/dashboard/notifications/manage`)
+- [✅] Middleware hoặc server action check role admin
 
 ---
 

@@ -23,6 +23,7 @@ export default function RegisterPage() {
   } = useForm<RegisterForm>();
 
   const [serverError, setServerError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const role = watch("role", "USER");
@@ -43,6 +44,8 @@ export default function RegisterPage() {
       router.push("/auth/login");
     } catch (err: any) {
       setServerError(err.response?.data?.message || "Register failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -136,9 +139,12 @@ export default function RegisterPage() {
 
         <button
           type="submit"
-          className="bg-stone-700 text-white px-4 py-2 rounded hover:bg-stone-500"
+          disabled={loading}
+          className={`bg-stone-700 text-white px-4 py-2 rounded hover:bg-stone-500 ${
+            loading ? "opacity-50 cursor-not-allowed" : "hover:bg-stone-500"
+          }`}
         >
-          Register
+          {loading ? "Register.. " : "Register"}
         </button>
       </form>
     </main>
